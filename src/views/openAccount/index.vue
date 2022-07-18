@@ -42,20 +42,24 @@
             v-model="formItem.cardNum"
             placeholder="请输入证件号码"
             style="width: 300px"
+            :maxlength="18"
           ></h-input>
         </h-form-item>
         <h-form-item label="用户银行卡号码">
-          <h-input
-            v-model="formItem.cardInfo"
-            placeholder="请输入银行卡号码"
+          <h-typefield
             style="width: 300px"
-          ></h-input>
+            v-model="formItem.cardInfo"
+            type="cardNo"
+            placeholder="请输入银行卡号码"
+            :maxlength="19"
+            bigTips
+          ></h-typefield>
         </h-form-item>
       </h-form>
     </div>
     <div class="open-footer">
       <h-button @click="submitUser" class="btn" type="primary" size="large"
-        >提交个人信息</h-button
+        >申购</h-button
       >
     </div>
   </div>
@@ -78,7 +82,7 @@ export default {
   },
   methods: {
     submitUser() {
-      console.log(core);
+      console.log(this.formItem);
       core
         .fetch({
           method: "post",
