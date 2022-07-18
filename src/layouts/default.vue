@@ -5,7 +5,12 @@
     </div>
     <h-row name="flex">
       <h-col span="4" class="layout-menu-left">
-        <h-menu active-name="1-2" theme="dark" width="auto" :open-names="['1']">
+        <h-menu
+          active-name="1-2"
+          theme="light"
+          width="auto"
+          :open-names="['1']"
+        >
           <div class="layout-logo-left"></div>
           <h-menu-item name="home">
             <router-link to="/home">首页</router-link>
@@ -105,7 +110,7 @@ export default {};
 <style lang="less">
 .layout-ceiling-main {
   height: 5vh;
-  background-color: #43a7fd;
+  background-color: #001529;
 }
 .h-menu-vertical {
   height: 95vh;
@@ -123,6 +128,7 @@ export default {};
 
 .layout-content {
   height: calc(95vh - 30px);
+  background-color: #f0f2f5;
 }
 
 .layout-content-main {
@@ -132,5 +138,6 @@ export default {};
 .layout-footer {
   height: 30px;
   text-align: center;
+  background-color: #f0f2f5;
 }
 </style>

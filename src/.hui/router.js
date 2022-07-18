@@ -1,154 +1,166 @@
-import { initRouter, initRouterLayout } from "@hsui/core";
+import { initRouter, initRouterLayout } from '@hsui/core'
 
 export default initRouter(
   [
     {
-      path: "/",
-      redirect: "/login",
-    },
-    {
-      path: "/login",
-      name: "login-index",
-      component: LoginIndex,
-    },
-    {
-      path: "/",
-      component: initRouterLayout((layout) => {
-        return import("@/layouts/" + layout + ".vue");
+      path: '/',
+      component: initRouterLayout(layout => {
+        return import('@/layouts/' + layout + '.vue')
       }),
       children: [
         {
-          name: "index",
-          path: "home",
+          name: 'index',
+          path: '',
           component: Index,
+          children: [
+            {
+              name: 'index-home',
+              path: 'home',
+              component: IndexHome
+            }
+          ]
         },
         {
-          name: "clear-index",
-          path: "clear",
-          component: ClearIndex,
+          name: 'clear-index',
+          path: 'clear',
+          component: ClearIndex
         },
         {
-          name: "openAccount-index",
-          path: "openAccount",
-          component: OpenAccountIndex,
+          name: 'login-index',
+          path: 'login',
+          component: LoginIndex
         },
         {
-          name: "product-index",
-          path: "product",
-          component: ProductIndex,
+          name: 'openAccount-index',
+          path: 'openAccount',
+          component: OpenAccountIndex
         },
         {
-          name: "search-searchProductInfo-index",
-          path: "search/searchProductInfo",
-          component: SearchSearchProductInfoIndex,
+          name: 'product-index',
+          path: 'product',
+          component: ProductIndex
         },
         {
-          name: "search-searchTradingInfo-index",
-          path: "search/searchTradingInfo",
-          component: SearchSearchTradingInfoIndex,
+          name: 'openAccount-test-index',
+          path: 'openAccount/test',
+          component: OpenAccountTestIndex
         },
         {
-          name: "search-searchUserInfo-index",
-          path: "search/searchUserInfo",
-          component: SearchSearchUserInfoIndex,
+          name: 'search-searchProductInfo-index',
+          path: 'search/searchProductInfo',
+          component: SearchSearchProductInfoIndex
         },
         {
-          name: "trade-buy-index",
-          path: "trade/buy",
-          component: TradeBuyIndex,
+          name: 'search-searchTradingInfo-index',
+          path: 'search/searchTradingInfo',
+          component: SearchSearchTradingInfoIndex
         },
         {
-          name: "trade-pay-index",
-          path: "trade/pay",
-          component: TradePayIndex,
+          name: 'search-searchUserInfo-index',
+          path: 'search/searchUserInfo',
+          component: SearchSearchUserInfoIndex
         },
         {
-          name: "trade-repeal-index",
-          path: "trade/repeal",
-          component: TradeRepealIndex,
+          name: 'trade-buy-index',
+          path: 'trade/buy',
+          component: TradeBuyIndex
         },
         {
-          name: "trade-sell-index",
-          path: "trade/sell",
-          component: TradeSellIndex,
+          name: 'trade-pay-index',
+          path: 'trade/pay',
+          component: TradePayIndex
         },
         {
-          name: "product-id",
-          path: "product/:id?",
-          component: ProductId,
+          name: 'trade-repeal-index',
+          path: 'trade/repeal',
+          component: TradeRepealIndex
         },
         {
-          name: "__404__",
-          path: "*",
-          component: __404__,
+          name: 'trade-sell-index',
+          path: 'trade/sell',
+          component: TradeSellIndex
         },
-      ],
-    },
+        {
+          name: 'product-id',
+          path: 'product/:id?',
+          component: ProductId
+        },
+        {
+          name: '__404__',
+          path: '*',
+          component: __404__
+        }
+      ]
+    }
   ],
-  { base: "/", mode: "hash" }
-);
+  { base: '/', mode: 'hash' }
+)
 
 function Index() {
-  return import(/* webpackChunkName: "index" */ "@/views/index.vue");
+  return import(/* webpackChunkName: "index" */ '@/views/index.vue')
+}
+function IndexHome() {
+  return import(/* webpackChunkName: "index-home" */ '@/views/index/home.vue')
 }
 function ClearIndex() {
-  return import(
-    /* webpackChunkName: "clear-index" */ "@/views/clear/index.vue"
-  );
+  return import(/* webpackChunkName: "clear-index" */ '@/views/clear/index.vue')
 }
 function LoginIndex() {
-  return import(
-    /* webpackChunkName: "login-index" */ "@/views/login/index.vue"
-  );
+  return import(/* webpackChunkName: "login-index" */ '@/views/login/index.vue')
 }
 function OpenAccountIndex() {
   return import(
-    /* webpackChunkName: "openAccount-index" */ "@/views/openAccount/index.vue"
-  );
+    /* webpackChunkName: "openAccount-index" */ '@/views/openAccount/index.vue'
+  )
 }
 function ProductIndex() {
   return import(
-    /* webpackChunkName: "product-index" */ "@/views/product/index.vue"
-  );
+    /* webpackChunkName: "product-index" */ '@/views/product/index.vue'
+  )
+}
+function OpenAccountTestIndex() {
+  return import(
+    /* webpackChunkName: "openAccount-test-index" */ '@/views/openAccount/test/index.vue'
+  )
 }
 function SearchSearchProductInfoIndex() {
   return import(
-    /* webpackChunkName: "search-searchProductInfo-index" */ "@/views/search/searchProductInfo/index.vue"
-  );
+    /* webpackChunkName: "search-searchProductInfo-index" */ '@/views/search/searchProductInfo/index.vue'
+  )
 }
 function SearchSearchTradingInfoIndex() {
   return import(
-    /* webpackChunkName: "search-searchTradingInfo-index" */ "@/views/search/searchTradingInfo/index.vue"
-  );
+    /* webpackChunkName: "search-searchTradingInfo-index" */ '@/views/search/searchTradingInfo/index.vue'
+  )
 }
 function SearchSearchUserInfoIndex() {
   return import(
-    /* webpackChunkName: "search-searchUserInfo-index" */ "@/views/search/searchUserInfo/index.vue"
-  );
+    /* webpackChunkName: "search-searchUserInfo-index" */ '@/views/search/searchUserInfo/index.vue'
+  )
 }
 function TradeBuyIndex() {
   return import(
-    /* webpackChunkName: "trade-buy-index" */ "@/views/trade/buy/index.vue"
-  );
+    /* webpackChunkName: "trade-buy-index" */ '@/views/trade/buy/index.vue'
+  )
 }
 function TradePayIndex() {
   return import(
-    /* webpackChunkName: "trade-pay-index" */ "@/views/trade/pay/index.vue"
-  );
+    /* webpackChunkName: "trade-pay-index" */ '@/views/trade/pay/index.vue'
+  )
 }
 function TradeRepealIndex() {
   return import(
-    /* webpackChunkName: "trade-repeal-index" */ "@/views/trade/repeal/index.vue"
-  );
+    /* webpackChunkName: "trade-repeal-index" */ '@/views/trade/repeal/index.vue'
+  )
 }
 function TradeSellIndex() {
   return import(
-    /* webpackChunkName: "trade-sell-index" */ "@/views/trade/sell/index.vue"
-  );
+    /* webpackChunkName: "trade-sell-index" */ '@/views/trade/sell/index.vue'
+  )
 }
 function ProductId() {
-  return import(/* webpackChunkName: "product-id" */ "@/views/product/_id.vue");
+  return import(/* webpackChunkName: "product-id" */ '@/views/product/_id.vue')
 }
 function __404__() {
-  return import(/* webpackChunkName: "__404__" */ "@/views/__404__.vue");
+  return import(/* webpackChunkName: "__404__" */ '@/views/__404__.vue')
 }
