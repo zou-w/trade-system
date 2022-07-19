@@ -1,7 +1,9 @@
 <template>
   <div class="layout">
     <div class="layout-ceiling">
-      <div class="layout-ceiling-main">头部</div>
+      <div class="layout-ceiling-main">
+        <img class="logo" :src="imgUrl" alt="" />
+      </div>
     </div>
     <h-row name="flex">
       <h-col span="4" class="layout-menu-left">
@@ -104,16 +106,29 @@
 </template>
 
 <script>
-export default {};
+import logo from "../assets/team4_logo.png";
+export default {
+  data() {
+    return {
+      imgUrl: logo,
+    };
+  },
+};
 </script>
 
 <style lang="less">
 .layout-ceiling-main {
-  height: 5vh;
+  height: 8vh;
+  padding: 5px 0;
   background-color: #001529;
+  .logo {
+    width: 50px;
+    height: 50px;
+    margin-left: 30px;
+  }
 }
 .h-menu-vertical {
-  height: 95vh;
+  height: 92vh;
 }
 
 .h-menu-item-active {
@@ -127,7 +142,7 @@ export default {};
 }
 
 .layout-content {
-  height: calc(95vh - 30px);
+  height: calc(92vh - 30px);
   background-color: #f0f2f5;
 }
 

@@ -50,6 +50,19 @@
       >
     </div>
     <Msg-Box ref="tradeInfo" />
+    <!-- 弹框提示 -->
+    <h-msg-box
+      v-model="modal1"
+      :escClose="true"
+      title="确认购买该产品购买"
+      @on-ok="ok"
+      @on-cancel="cancel"
+      :beforeEscClose="beforetest"
+    >
+      <p>当前产品风险等级为:</p>
+      <p>您当前的客户类型为:</p>
+      <p>确定是否购买该产品</p>
+    </h-msg-box>
   </div>
 </template>
 <script>
@@ -69,29 +82,43 @@ export default {
         cardInfo: "",
         buyNum: "",
       },
+      modal1: false,
       modal: true,
+      buyMessage: "是否确定申购",
     };
   },
   methods: {
     submitBuy() {
+      this.modal1 = true;
+      // 风险等级判断
+    },
+    beforetest() {
+      return true;
+    },
+    ok() {
       let buyTime1 = Date.now();
       let buyTime = format(buyTime1);
-      this.$refs.tradeInfo.changeModal(this.modal);
-      // core
-      //   .fetch({
-      //     method: "post",
-      //     url: "http://127.0.0.1:4523/m1/1300795-0-default/createUserInfo",
-      //     data: {
-      //       ...this.formItem,
-      //     },
-      //   })
-      //   .then((res) => {
-      //     console.log(res);
-      //     this.$router.push("/openAccount/test");
-      //       if (res.data.state === "登录成功") {
-      //       this.$router.push("/test");
-      //     }
-      //   });
+      core
+        .fetch({
+          method: "post",
+          url: "http://127.0.0.1:4523/m1/1300795-0-default/buy",
+          data: {
+            ...this.buyInfo,
+            buyTime: buyTime,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          // 购买成功展示购买单信息
+          this.$refs.tradeInfo.changeBuyModal(this.modal, res.data);
+          // this.$router.push("/openAccount/test");
+          //   if (res.data.state === "登录成功") {
+          //   this.$router.push("/test");
+          // }
+        });
+    },
+    cancel() {
+      this.$hMessage.info("取消购买");
     },
   },
 };

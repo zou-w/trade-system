@@ -1,98 +1,80 @@
 <template>
   <div class="open">
-    <div class="open-header">用户赎回</div>
+    <div class="open-header">
+      <h-input
+        v-model="cardName"
+        placeholder="请输入用户姓名"
+        style="width: 300px"
+      ></h-input>
+      <h-input
+        v-model="cardNum"
+        placeholder="请输入用户身份证号码"
+        style="width: 300px"
+        :maxlength="18"
+      ></h-input>
+      <h-button type="primary" @click="searchSell">搜索</h-button>
+    </div>
     <div class="content">
-      <h-form :model="sellInfo" :label-width="200">
-        <h-form-item label="用户姓名">
-          <h-input
-            v-model="sellInfo.cardName"
-            placeholder="请输入姓名"
-            style="width: 300px"
-          ></h-input>
-        </h-form-item>
-        <h-form-item label="用户银行卡号">
-          <h-input
-            v-model="sellInfo.cardInfo"
-            placeholder="请输入银行卡号码"
-            style="width: 300px"
-          ></h-input>
-        </h-form-item>
-        <h-form-item label="购买产品编码">
-          <h-input
-            v-model="sellInfo.productId"
-            placeholder="请输入购买产品编码"
-            style="width: 300px"
-          ></h-input>
-        </h-form-item>
-        <h-form-item label="购买产品的名字">
-          <h-input
-            v-model="sellInfo.productName"
-            placeholder="请输入购买产品的名字"
-            style="width: 300px"
-          ></h-input>
-        </h-form-item>
-        <h-form-item label="赎回的份额">
-          <h-typefield
-            v-model="sellInfo.sellNum"
-            style="width: 300px"
-            integerNum="8"
-            type="money"
-            placeholder="请输入赎回的份额"
-            suffixNum="0"
-            bigTips
-            isround
-          ></h-typefield>
-        </h-form-item>
-      </h-form>
+      <h-table
+        width="1200"
+        height="350"
+        border
+        :columns="sellTable"
+        :data="this.sellPerson"
+      >
+      </h-table>
     </div>
     <div class="open-footer">
-      <h-button @click="submitSell" class="btn" type="primary" size="large"
-        >赎回</h-button
-      >
+      <!-- 分页 -->
+      <div style="margin: 10px; overflow: hidden">
+        <div style="float: right">
+          <h-page :total="100" :current="1" @on-change="changePage"></h-page>
+        </div>
+      </div>
     </div>
-    <Msg-Box ref="tradeInfo" />
+    <!-- <TradeInfo /> -->
   </div>
 </template>
 <script>
 import core from "@hsui/core";
-import { format } from "../../../utils/format-utils";
-import MsgBox from "../../../components/MsgBox.vue";
+import { SELL_TABLE } from "../../../constant/index";
+// import TradeInfo from "../../../components/tradeInfo.vue";
 export default {
-  components: {
-    MsgBox,
-  },
+  // components: {
+  //   TradeInfo,
+  // },
   data() {
     return {
-      sellInfo: {
-        productId: "",
-        cardName: "",
-        productName: "",
-        cardInfo: "",
-        sellNum: "",
-      },
-      modal: true,
+      cardName: "",
+      cardNum: "",
+      sellTable: SELL_TABLE,
+      sellPerson: [],
+      sellMsgBox: false,
     };
   },
   methods: {
-    submitSell() {
-      let buyTime1 = Date.now();
-      let buyTime = format(buyTime1);
-      this.$refs.tradeInfo.changeModal(this.modal);
-      // core
-      //   .fetch({
-      //     method: "post",
-      //     url: "http://127.0.0.1:4523/m1/1300795-0-default/createUserInfo",
-      //     data: {
-      //       ...this.formItem,
-      //     },
-      //   })
-      //   .then((res) => {
-      //     console.log(res);
-      //     this.$router.push("/openAccount/test");
-      //       if (res.data.state === "登录成功") {
-      //       this.$router.push("/test");
-      //     }
-      //   });
+    searchSell() {
+      core
+        .fetch({
+          method: "get",
+          url: "http://127.0.0.1:4523/m1/1300795-0-default/searchSell",
+          params: {
+            cardName: this.cardName,
+            cardNum: this.cardNum,
+          },
+        })
+        .then((res) => {
+          this.sellPerson = res.data;
+          console.log("@", this.sellPerson);
+        });
+    },
+    //分页
+    changePage() {
+      // 这里直接更改了模拟的数据，真实使用场景应该从服务端获取数据
+      this.sellTable = this.sellPerson();
+    },
+    sellInfo() {
+      console.log("@@");
     },
   },
 };
@@ -101,13 +83,13 @@ export default {
 <style lang="less" scoped>
 .open {
   .open-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
     width: 100%;
     height: 50px;
-    margin-top: 15px;
-    padding: 10px 0;
     font-weight: 400;
     font-size: 20px;
-    text-align: center;
     background-color: #fff;
     border-radius: 8px;
   }
@@ -115,7 +97,7 @@ export default {
     width: 100%;
     height: 400px;
     margin-top: 40px;
-    padding: 30px 0;
+    padding: 30px 10px;
     background-color: #fff;
     border-radius: 10px;
   }
@@ -123,6 +105,7 @@ export default {
     width: 100%;
     height: 100px;
     margin-top: 40px;
+    padding: 10px 0;
     background-color: #fff;
     border-radius: 10px;
     .btn {
