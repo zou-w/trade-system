@@ -2,7 +2,7 @@
   <body>
     <div class="container">
         <div class="login-wrapper">
-            <div class="header">登录</div>
+            <div class="header"> 登录</div>
             <div class="form-wrapper">
                 <input type="text" name="username" placeholder="用户名" class="input-item">
                 <input type="password" name="password" placeholder="密码" class="input-item">

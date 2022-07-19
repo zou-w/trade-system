@@ -2,16 +2,6 @@ import { initRouter, initRouterLayout } from '@hsui/core'
 
 export default initRouter(
   [
-
-    {
-      path: "/",
-      redirect: "/login",
-    },
-    {
-      name: "login-index",
-      path: "/login",
-      component: LoginIndex,
-    },
     {
       path: '/',
       component: initRouterLayout(layout => {
