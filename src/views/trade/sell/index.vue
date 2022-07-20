@@ -1,9 +1,116 @@
 <template>
-  <div>赎回</div>
+  <div class="open">
+    <div class="open-header">
+      <h-input
+        v-model="cardName"
+        placeholder="请输入用户姓名"
+        style="width: 300px"
+      ></h-input>
+      <h-input
+        v-model="cardNum"
+        placeholder="请输入用户身份证号码"
+        style="width: 300px"
+        :maxlength="18"
+      ></h-input>
+      <h-button type="primary" @click="searchSell">搜索</h-button>
+    </div>
+    <div class="content">
+      <h-table
+        width="1200"
+        height="350"
+        border
+        :columns="sellTable"
+        :data="this.sellPerson"
+      >
+      </h-table>
+    </div>
+    <div class="open-footer">
+      <!-- 分页 -->
+      <div style="margin: 10px; overflow: hidden">
+        <div style="float: right">
+          <h-page :total="100" :current="1" @on-change="changePage"></h-page>
+        </div>
+      </div>
+    </div>
+    <!-- <TradeInfo /> -->
+  </div>
 </template>
-
 <script>
-export default {};
+import core from "@hsui/core";
+import { SELL_TABLE } from "../../../constant/index";
+// import TradeInfo from "../../../components/tradeInfo.vue";
+export default {
+  // components: {
+  //   TradeInfo,
+  // },
+  data() {
+    return {
+      cardName: "",
+      cardNum: "",
+      sellTable: SELL_TABLE,
+      sellPerson: [],
+      sellMsgBox: false,
+    };
+  },
+  methods: {
+    searchSell() {
+      core
+        .fetch({
+          method: "get",
+          url: "http://127.0.0.1:4523/m1/1300795-0-default/searchSell",
+          params: {
+            cardName: this.cardName,
+            cardNum: this.cardNum,
+          },
+        })
+        .then((res) => {
+          this.sellPerson = res.data;
+          console.log("@", this.sellPerson);
+        });
+    },
+    //分页
+    changePage() {
+      // 这里直接更改了模拟的数据，真实使用场景应该从服务端获取数据
+      this.sellTable = this.sellPerson();
+    },
+    sellInfo() {
+      console.log("@@");
+    },
+  },
+};
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.open {
+  .open-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 50px;
+    font-weight: 400;
+    font-size: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+  .content {
+    width: 100%;
+    height: 400px;
+    margin-top: 40px;
+    padding: 30px 10px;
+    background-color: #fff;
+    border-radius: 10px;
+  }
+  .open-footer {
+    width: 100%;
+    height: 100px;
+    margin-top: 40px;
+    padding: 10px 0;
+    background-color: #fff;
+    border-radius: 10px;
+    .btn {
+      margin: 30px 45%;
+    }
+  }
+}
+</style>

@@ -11,7 +11,14 @@ export default initRouter(
         {
           name: 'index',
           path: '',
-          component: Index
+          component: Index,
+          children: [
+            {
+              name: 'index-home',
+              path: 'home',
+              component: IndexHome
+            }
+          ]
         },
         {
           name: 'clear-index',
@@ -32,6 +39,11 @@ export default initRouter(
           name: 'product-index',
           path: 'product',
           component: ProductIndex
+        },
+        {
+          name: 'openAccount-test-index',
+          path: 'openAccount/test',
+          component: OpenAccountTestIndex
         },
         {
           name: 'search-searchProductInfo-index',
@@ -87,6 +99,9 @@ export default initRouter(
 function Index() {
   return import(/* webpackChunkName: "index" */ '@/views/index.vue')
 }
+function IndexHome() {
+  return import(/* webpackChunkName: "index-home" */ '@/views/index/home.vue')
+}
 function ClearIndex() {
   return import(/* webpackChunkName: "clear-index" */ '@/views/clear/index.vue')
 }
@@ -101,6 +116,11 @@ function OpenAccountIndex() {
 function ProductIndex() {
   return import(
     /* webpackChunkName: "product-index" */ '@/views/product/index.vue'
+  )
+}
+function OpenAccountTestIndex() {
+  return import(
+    /* webpackChunkName: "openAccount-test-index" */ '@/views/openAccount/test/index.vue'
   )
 }
 function SearchSearchProductInfoIndex() {
