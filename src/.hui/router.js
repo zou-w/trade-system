@@ -11,14 +11,7 @@ export default initRouter(
         {
           name: 'index',
           path: '',
-          component: Index,
-          children: [
-            {
-              name: 'index-home',
-              path: 'home',
-              component: IndexHome
-            }
-          ]
+          component: Index
         },
         {
           name: 'clear-index',
@@ -98,9 +91,6 @@ export default initRouter(
 
 function Index() {
   return import(/* webpackChunkName: "index" */ '@/views/index.vue')
-}
-function IndexHome() {
-  return import(/* webpackChunkName: "index-home" */ '@/views/index/home.vue')
 }
 function ClearIndex() {
   return import(/* webpackChunkName: "clear-index" */ '@/views/clear/index.vue')

@@ -1,18 +1,10 @@
 <template>
-  <div class="container">
+<div class="layout-content-main">
+  <div class="title">
     <div class="title1">今日</div>
     <div class="title2">历史记录</div>
-    <div class="table">
-      <h-table
-        height="600"
-        width="300"
-        :columns="columns1"
-        :data="data2"
-        headAlgin="center"
-        bodyAlgin="center"
-        adaptiveNoDataHeight="true"
-      ></h-table>
-    </div>
+  </div>
+  <div class="container"> 
     <div class="step">
       <h-steps :current="2" direction="vertical">
         <h-step title="已完成" content="日初始化"></h-step>
@@ -21,11 +13,23 @@
         <h-step title="待进行" content="处理完成"></h-step>
       </h-steps>
     </div>
-    <div class="btn">
-      <button class="clear" long>清算</button> 
-      <button class="reclear" long>重新清算</button>
-    </div>
+  <div class="table">
+     <h-table
+        height="600"
+        width="300"
+        :columns="columns1"
+        :data="data2"
+        headAlgin="center"
+        bodyAlgin="center"
+        adaptiveNoDataHeight="true"
+      ></h-table>
   </div>
+  </div>
+  <div class="button">
+    <button>清算</button>
+    <button>重新清算</button>
+  </div>
+</div>
 </template>
 
 
@@ -207,30 +211,26 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.step {
-  padding-top: 150px;
-  padding-left: 360px;
-  padding-right: 50%;
+
+.container{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 60px;
+}
+.title{
+  display: flex;
+  justify-content: space-between;
 }
 .title1 {
-  position: absolute;
-  margin-left: 360px;
-  margin-top: 30px;
+  margin-left: 20% ;
   font-size: 30px;
   font-weight: 900;
 }
 .title2 {
-  position: absolute;
-  margin-left: 72%;
-  margin-top: 30px;
   font-size: 30px;
   font-weight: 900;
-}
-
-.table {
-  position: fixed;
-  padding-left: 55%;
-  padding-top: 8%;
+  margin-right: 25%;
+  
 }
 .h-steps-item {
   height: 120px;
@@ -239,9 +239,9 @@ export default {
   font-size: 30px;
 }
 .btn {
-  padding-top: 8%;
+  margin-top: 80%;
   align-items: center;
-  padding-left: 12%;
+  margin-left: 5%;
 }
 button {
   width: 20%;
