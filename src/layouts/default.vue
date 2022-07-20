@@ -15,7 +15,7 @@
         >
           <div class="layout-logo-left"></div>
           <h-menu-item name="home">
-            <router-link to="/home">首页</router-link>
+            <router-link to="/">首页</router-link>
           </h-menu-item>
           <!-- 开户 -->
           <h-submenu name="openAccount">
@@ -78,7 +78,7 @@
               <h-menu-item name="repeal"> 撤销 </h-menu-item>
             </router-link>
             <router-link to="/trade/pay">
-              <h-menu-item name="pay"> 充值 </h-menu-item>
+              <h-menu-item name="pay"> 充值/提现 </h-menu-item>
             </router-link>
           </h-submenu>
           <!-- 清算 -->

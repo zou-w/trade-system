@@ -108,8 +108,8 @@ export default {
   .open-header {
     width: 100%;
     height: 50px;
-    margin-top: 15px;
-    padding: 10px 0;
+    padding-top: 10px;
+
     font-weight: 400;
     font-size: 20px;
     text-align: center;
@@ -120,7 +120,7 @@ export default {
     width: 100%;
     height: 400px;
     margin-top: 40px;
-    padding: 30px 0;
+    padding: 30px 10px;
     background-color: #fff;
     border-radius: 10px;
   }
@@ -128,6 +128,7 @@ export default {
     width: 100%;
     height: 100px;
     margin-top: 40px;
+    padding: 10px 0;
     background-color: #fff;
     border-radius: 10px;
     .btn {

@@ -32,24 +32,91 @@
         </div>
       </div>
     </div>
-    <!-- <TradeInfo /> -->
+    <TradeInfo ref="sellMsgBox" />
   </div>
 </template>
 <script>
 import core from "@hsui/core";
-import { SELL_TABLE } from "../../../constant/index";
-// import TradeInfo from "../../../components/tradeInfo.vue";
+// import { SELL_TABLE } from "../../../constant/index";
+import TradeInfo from "../../../components/tradeInfo.vue";
 export default {
-  // components: {
-  //   TradeInfo,
-  // },
+  components: {
+    TradeInfo,
+  },
   data() {
+    const that = this;
     return {
       cardName: "",
       cardNum: "",
-      sellTable: SELL_TABLE,
       sellPerson: [],
-      sellMsgBox: false,
+      modal: false,
+      sellTable: [
+        {
+          title: "姓名",
+          key: "cardName",
+          width: 100,
+        },
+        {
+          title: "身份证信息",
+          key: "cardNum",
+          width: 300,
+        },
+        {
+          title: "产品名字",
+          key: "productName",
+          width: 100,
+        },
+        {
+          title: "产品id",
+          key: "productId",
+          width: 100,
+        },
+        {
+          title: "订单编号",
+          key: "buyId",
+          width: 200,
+        },
+        {
+          title: "当前产品份额",
+          key: "personNum",
+          width: 100,
+        },
+        {
+          title: "购买时间",
+          key: "buyTime",
+          width: 200,
+        },
+        {
+          title: "操作",
+          key: "action",
+          fixed: "right",
+          width: 120,
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "text",
+                    size: "small",
+                    type: "primary",
+                  },
+                  on: {
+                    click() {
+                      that.modal = true;
+                      that.$refs.sellMsgBox.changeSellModal(
+                        that.modal,
+                        params.row.productId
+                      );
+                    },
+                  },
+                },
+                "赎回"
+              ),
+            ]);
+          },
+        },
+      ],
     };
   },
   methods: {
