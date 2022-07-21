@@ -9,6 +9,15 @@ export const PRODUCT_STATUS_ORM = {
   releaseSuccess: "发布成功",
 };
 
+export const PRODUCT_INFO = {
+  productId: "",
+  productName: "",
+  productNum: "",
+  productType: "",
+  productLevel: "",
+  productPrice: "",
+};
+
 export const SELL_INFO = {
   cardName: "",
   cardNum: "",

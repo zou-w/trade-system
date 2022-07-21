@@ -1,391 +1,248 @@
 <template>
-  <div>
-    <!-- 表格操作 -->
-    <div class="product-action-bar">
-      <h-button type="primary" @click="addProduct">新增</h-button>
+  <div class="open">
+    <div class="searchProduct">
+      <div class="searchForm">
+        <h-form :model="formItem" :label-width="80">
+          <h-form-item label="搜索产品:">
+            <h-input
+              type="text"
+              v-model="formItem.productName"
+              placeholder="请输入搜索的产品"
+              style="width: 300px"
+              @on-blur="searchProduct"
+            >
+              <h-icon name="android-person" slot="prepend"></h-icon>
+            </h-input>
+          </h-form-item>
+        </h-form>
+      </div>
+      <div class="btn">
+        <h-button class="add" type="primary" size="large" @click="addProduct"
+          >添加产品</h-button
+        >
+        <h-button type="error" size="large" @click="deleteProduct"
+          >删除产品</h-button
+        >
+      </div>
     </div>
-    <!-- 表格 -->
-    <h-table
-      :loading="productLoading"
-      :columns="productColumns"
-      :data="productList"
-    ></h-table>
-    <!-- 分页 -->
-    <div v-show="pagination.total > 0" class="pagination-wrap">
-      <h-page v-bind="pagination" @on-change="changePagination"></h-page>
-    </div>
-    <!-- 弹框-产品新增/编辑 -->
-    <h-msg-box
-      v-model="productMsgBoxVisible"
-      footerHide
-      :escClose="true"
-      :title="
-        productFormMsgBoxData.id
-          ? `编辑${productFormMsgBoxData.productName}`
-          : '新增'
-      "
-      :beforeEscClose="productMsgBoxBeforeEscClose"
-      @on-close="productMsgBoxClose"
-    >
-      <h-form
-        ref="productForm"
-        :model="productFormData"
-        :rules="productRuleValidate"
-        :label-width="80"
+    <div class="showProduct">
+      <h-table
+        width="1200"
+        height="500"
+        border
+        :columns="productLists"
+        :data="this.productList"
+        @on-select="selectInfo"
       >
-        <h-form-item label="产品名称" prop="productName" required>
-          <h-input
-            v-model="productFormData.productName"
-            placeholder="请输入产品名称"
-          />
-        </h-form-item>
-        <h-form-item label="产品类型" prop="productType" required cols="2">
-          <h-radio-group v-model="productFormData.productType">
-            <h-radio
-              v-for="(productType, key) in productTypeOrm"
-              :key="key"
-              style="margin-right: 24px"
-              :label="key"
-            >
-              {{ productType }}
-            </h-radio>
-          </h-radio-group>
-        </h-form-item>
-        <h-form-item label="产品状态" prop="productStatus" required cols="2">
-          <h-radio-group v-model="productFormData.productStatus">
-            <h-radio
-              v-for="(productStatus, key) in productStatusOrm"
-              :key="key"
-              style="margin-right: 24px"
-              :label="key"
-            >
-              {{ productStatus }}
-            </h-radio>
-          </h-radio-group>
-        </h-form-item>
-        <h-form-item label="产品大类" prop="productCategory">
-          <h-input
-            v-model="productFormData.productCategory"
-            placeholder="请输入产品大类"
-          />
-        </h-form-item>
-        <h-form-item style="text-align: right">
-          <h-button type="ghost" @click="productFormCancel"> 取消 </h-button>
-          <h-button type="ghost" @click="productFormReset"> 重置 </h-button>
-          <h-button type="primary" @click="productFormOk"> 提交 </h-button>
-        </h-form-item>
-      </h-form>
-    </h-msg-box>
+      </h-table>
+      <!-- 分页 -->
+      <div style="margin: 10px; overflow: hidden">
+        <div style="float: right">
+          <h-page :total="100" :current="1"></h-page>
+        </div>
+      </div>
+      <addProductVue ref="showAddProduct" />
+      <editProductVue ref="showEditProduct" />
+    </div>
   </div>
 </template>
-
 <script>
 import core from "@hsui/core";
-import { PRODUCT_TYPE_ORM, PRODUCT_STATUS_ORM } from "../../constant";
-
+import { fuzzySearch } from "../../utils/search-utils";
+import { SHOW_PRODUCT_LISTS } from "../../constant/orm";
+import addProductVue from "../../components/AddProduct.vue";
+import editProductVue from "../../components/editProduct.vue";
 export default {
+  components: {
+    addProductVue,
+    editProductVue,
+  },
   data() {
-    this.timer = null;
-    this.productTypeOrm = PRODUCT_TYPE_ORM;
-    this.productStatusOrm = PRODUCT_STATUS_ORM;
-    const router = this.$router;
     const that = this;
     return {
-      productLoading: true,
-      productMsgBoxVisible: false,
-      productFormMsgBoxData: {},
-      productFormData: {},
-      productRuleValidate: {
-        productName: [
-          {
-            required: true,
-            message: "产品名称不能为空",
-            trigger: "blur",
-          },
-        ],
-        productStatus: [
-          {
-            required: true,
-            message: "请选择产品状态",
-            trigger: "change",
-          },
-        ],
-        productType: [
-          {
-            required: true,
-            message: "请选择产品类型",
-            trigger: "change",
-          },
-        ],
+      formItem: {
+        productName: "",
       },
-      productColumns: [
+      productList: [],
+      //原数组
+      productIds: [],
+      productLists: [
         {
-          title: "序号",
-          type:"index"
-        },
-        {
-          title: "产品代码",
-          key: "id",
-          render: (h, { row: { id } }) => h("span", {}, id.slice(-10)),
+          type: "selection",
+          width: 60,
+          align: "center",
         },
         {
           title: "产品名称",
           key: "productName",
+          width: 200,
+        },
+        {
+          title: "产品编号",
+          key: "productId",
+          width: 200,
         },
         {
           title: "产品类型",
           key: "productType",
-          render: (h, { row: { productType } }) => {
-            return h("span", {}, this.productTypeOrm[productType]);
-          },
+          width: 200,
         },
         {
-          title: "产品状态",
-          key: "productStatus",
-          render: (h, { row: { productStatus } }) => {
-            return h("span", {}, this.productStatusOrm[productStatus]);
+          title: "产品总额",
+          key: "productNum",
+          width: 150,
+        },
+        {
+          title: "产品净值",
+          key: "productPrice",
+          width: 150,
+        },
+        {
+          title: "产品风险等级",
+          key: "productLevel",
+          render: (h, params) => {
+            const row = params.row;
+            const color =
+              row.productLevel === "high"
+                ? "red"
+                : row.productLevel === "low"
+                ? "green"
+                : "blue";
+            const text =
+              row.productLevel === "high"
+                ? "高风险"
+                : row.productLevel === "low"
+                ? "低风险"
+                : "中等风险";
+            return h(
+              "Tag",
+              {
+                props: {
+                  type: "dot",
+                  color: color,
+                },
+              },
+              text
+            );
           },
         },
-        // {
-        //   title: "证件大类",
-        //   key: "productCategory",
-        // },
         {
           title: "操作",
           key: "action",
-          width: 200,
-          render(h, { row, row: { id, productName } = {} }) {
+          fixed: "right",
+          width: 100,
+          render: (h, params) => {
             return h("div", [
-              h(
-                "h-poptip",
-                {
-                  props: {
-                    title: `确认删除${productName}?`,
-                    confirm: true,
-                    width: 200,
-                    transfer: true,
-                  },
-                  on: {
-                    "on-ok": () => {
-                      that.delProduct(id, productName);
-                    },
-                    "on-cancel": () => {
-                      that.$hMessage.info({
-                        content: `取消删除${productName}`,
-                        durtion: 3,
-                        closable: true,
-                      });
-                    },
-                  },
-                },
-                [
-                  h(
-                    "Button",
-                    {
-                      props: { type: "text", size: "small" },
-                    },
-                    "删除"
-                  ),
-                ]
-              ),
               h(
                 "Button",
                 {
-                  props: { type: "text", size: "small" },
+                  props: {
+                    type: "text",
+                    size: "small",
+                    type: "primary",
+                  },
                   on: {
                     click() {
-                      that.productMsgBoxVisible = true;
-                      that.productFormMsgBoxData = { ...row };
-                      that.productFormData = { ...row };
+                      console.log("编辑");
+                      that.modal = true;
+                      that.$refs.showEditProduct.changeSellModal(
+                        that.modal,
+                        params.row
+                      );
                     },
                   },
                 },
                 "编辑"
               ),
-              h(
-                "Button",
-                {
-                  props: { type: "text", size: "small" },
-                  on: {
-                    click() {
-                      router.push({
-                        path: `/product/${id}`,
-                      });
-                    },
-                  },
-                },
-                "查看"
-              ),
             ]);
           },
         },
       ],
-      productList: [],
-      pagination: {
-        current: 1,
-        "page-size": 2,
-        total: 0,
-      },
     };
+  },
+  methods: {
+    getProductLists() {
+      core
+        .fetch({
+          method: "get",
+          url: "/api/showProduct",
+          data: {
+            allProduct: 1,
+          },
+        })
+        .then((res) => {
+          this.productList = res.data;
+        });
+    },
+    //搜索产品
+    searchProduct() {
+      if (this.formItem.productName === "") {
+        this.getProductLists();
+      } else {
+        this.productList = fuzzySearch(
+          this.productList,
+          this.formItem.productName
+        );
+      }
+      console.log(this.formItem.productName);
+    },
+    //选中状态
+    selectInfo(e) {
+      //选中的数据项
+      this.productIds = [];
+      e.map((item) => {
+        this.productIds.push(item.productId);
+      });
+      this.productIds1 = JSON.parse(JSON.stringify(this.productIds));
+    },
+    //添加产品
+    addProduct() {
+      this.$refs.showAddProduct.changeSellModal(true);
+    },
+    //删除产品
+    deleteProduct() {
+      console.log(this.productIds1);
+      if (this.productIds1 !== undefined) {
+        core
+          .fetch({
+            method: "post",
+            url: "/api/deleteProduct",
+            data: {
+              productId: this.productIds1,
+            },
+          })
+          .then((res) => {
+            const { message } = res;
+            this.$hMessage.success(message);
+            this.getProductLists();
+          });
+      } else {
+        this.$hMessage.info("请选择删除的产品");
+      }
+    },
   },
   created() {
     // 获取产品列表;
-    this.getProductList();
-  },
-  methods: {
-    addProduct() {
-      this.timer = null;
-      this.productMsgBoxVisible = true;
-    },
-    delProduct(id, productName) {
-      core
-        .fetch({
-          method: "post",
-          url: "/api/product/del",
-          data: {
-            id,
-          },
-        })
-        .then((res) => {
-          if (res.code === 1) {
-            this.$hMessage.success(`删除${productName}成功！`);
-            this.getProductList();
-          }
-        })
-        .catch(() => {
-          this.$hMessage.error({
-            content: `删除${productName}失败`,
-            durtion: 3,
-            closable: true,
-          });
-        });
-    },
-    getProductList() {
-      core
-        .fetch({
-          method: "get",
-          url: "http://127.0.0.1:2022/api/product",
-          data: {
-            current: 1,
-            pageSize: 3,
-          },
-        })
-        .then((res) => {
-          const { code, data, pagination } = res;
-          if (code === 1) {
-            this.productLoading = false;
-            this.productList = data;
-            this.pagination = {
-              ...pagination,
-            };
-          }
-        });
-    },
-    createProduct() {
-      core
-        .fetch({
-          method: "post",
-          url: "/api/product/add",
-          data: { ...this.productFormData },
-        })
-        .then((res) => {
-          if (res.code === 1) {
-            this.getProductList();
-            this.resetProductFormMsgBoxData();
-            this.resetProductFormData();
-          }
-        });
-    },
-    updateProduct() {
-      core
-        .fetch({
-          method: "post",
-          url: "/api/product",
-          data: { ...this.productFormData },
-        })
-        .then((res) => {
-          if (res.code === 1) {
-            this.getProductList();
-            this.resetProductFormMsgBoxData();
-            this.resetProductFormData();
-          }
-        });
-    },
-    productFormOk() {
-      this.$refs["productForm"].validate((valid) => {
-        if (valid) {
-          if (this.productFormData.id) {
-            this.updateProduct();
-          } else {
-            this.createProduct();
-          }
-        } else {
-          this.$Message.error("表单验证失败!");
-          return;
-        }
-      });
-    },
-    productFormCancel() {
-      this.resetProductFormMsgBoxData();
-      this.resetProductFormData();
-    },
-    productFormReset() {
-      this.resetProductFormData();
-    },
-    productMsgBoxBeforeEscClose() {
-      this.resetProductFormMsgBoxData();
-      this.resetProductFormData();
-      return ture;
-    },
-    productMsgBoxClose() {
-      this.resetProductFormMsgBoxData();
-      this.resetProductFormData();
-    },
-    resetProductFormMsgBoxData() {
-      this.productMsgBoxVisible = false;
-      this.productFormMsgBoxData = {};
-    },
-    resetProductFormData() {
-      this.productFormData = {};
-      this.timer = setTimeout(() => {
-        this.$refs["productForm"].resetValidate();
-      }, 0);
-    },
-    changePagination(page) {
-      core
-        .fetch({
-          method: "get",
-          url: "/api/product",
-          data: {
-            current: page,
-            pageSize: 3,
-          },
-        })
-        .then((res) => {
-          const { code, data, pagination } = res;
-          if (code === 1) {
-            this.productLoading = false;
-            this.productList = data;
-            this.pagination = {
-              ...pagination,
-            };
-          }
-        });
-    },
-  },
-  beforeDestroy() {
-    this.timer = null;
+    this.getProductLists();
   },
 };
 </script>
 
 <style lang="less" scoped>
-.product-action-bar {
-  margin-bottom: 12px;
-}
-
-.pagination-wrap {
-  margin-top: 12px;
-  text-align: right;
+.open {
+  width: 100%;
+  height: 83vh;
+  padding: 18px;
+  background-color: #fff;
+  border-radius: 10px;
+  .searchProduct {
+    display: flex;
+    justify-content: space-around;
+    .btn {
+      .add {
+        margin-right: 50px;
+      }
+    }
+  }
 }
 </style>

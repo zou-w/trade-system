@@ -65,7 +65,7 @@ import core from "@hsui/core";
 import { format } from "../utils/format-utils";
 import MsgBox from "./MsgBox.vue";
 export default {
-  name: "tradeInfo",
+  name: "TradingInfo",
   components: {
     MsgBox,
   },

@@ -74,11 +74,6 @@ export default initRouter(
           component: TradeSellIndex
         },
         {
-          name: 'product-id',
-          path: 'product/:id?',
-          component: ProductId
-        },
-        {
           name: '__404__',
           path: '*',
           component: __404__
@@ -147,9 +142,6 @@ function TradeSellIndex() {
   return import(
     /* webpackChunkName: "trade-sell-index" */ '@/views/trade/sell/index.vue'
   )
-}
-function ProductId() {
-  return import(/* webpackChunkName: "product-id" */ '@/views/product/_id.vue')
 }
 function __404__() {
   return import(/* webpackChunkName: "__404__" */ '@/views/__404__.vue')

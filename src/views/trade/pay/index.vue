@@ -142,7 +142,7 @@ export default {
       core
         .fetch({
           method: "post",
-          url: "http://127.0.0.1:4523/m1/1300795-0-default/searchUser",
+          url: "/api/searchUser",
           data: {
             cardName: this.userInfo1.cardName,
             cardNum: this.userInfo1.cardNum,
@@ -164,7 +164,7 @@ export default {
       core
         .fetch({
           method: "post",
-          url: "http://127.0.0.1:4523/m1/1300795-0-default/recharge",
+          url: "/api/recharge",
           data: {
             ...this.userInfo1,
             rechargeValue: this.rechargeValue,
@@ -185,7 +185,7 @@ export default {
       core
         .fetch({
           method: "post",
-          url: "http://127.0.0.1:4523/m1/1300795-0-default/withdrawal",
+          url: "/api/withdrawal",
           data: {
             ...this.userInfo2,
             withdrawalValue: this.withdrawalValue,

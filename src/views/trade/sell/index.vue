@@ -38,7 +38,7 @@
 <script>
 import core from "@hsui/core";
 // import { SELL_TABLE } from "../../../constant/index";
-import TradeInfo from "../../../components/tradeInfo.vue";
+import TradeInfo from "../../../components/TradingInfo.vue";
 export default {
   components: {
     TradeInfo,
@@ -124,7 +124,7 @@ export default {
       core
         .fetch({
           method: "get",
-          url: "http://127.0.0.1:4523/m1/1300795-0-default/searchSell",
+          url: "/api/searchSell",
           params: {
             cardName: this.cardName,
             cardNum: this.cardNum,
