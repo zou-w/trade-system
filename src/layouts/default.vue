@@ -20,7 +20,7 @@
           <!-- 开户 -->
           <h-submenu name="openAccount">
             <template v-slot:title>
-              <h-icon name="mail"></h-icon>
+              <h-icon name="android-person-add"></h-icon>
               开户
             </template>
             <router-link to="/openAccount">
@@ -30,7 +30,7 @@
           <!-- 产品 -->
           <h-submenu name="product">
             <template v-slot:title>
-              <h-icon name="mail"></h-icon>
+              <h-icon name="publishgoods_fill"></h-icon>
               产品
             </template>
             <router-link to="/product"
@@ -40,7 +40,7 @@
           <!-- 查询 -->
           <h-submenu name="search">
             <template v-slot:title>
-              <h-icon name="mail"></h-icon>
+              <h-icon name="t-b-lookup"></h-icon>
               查询
             </template>
 
@@ -65,7 +65,7 @@
           <!-- 交易 -->
           <h-submenu name="trade">
             <template v-slot:title>
-              <h-icon name="mail"></h-icon>
+              <h-icon name="financial_fill"></h-icon>
               交易
             </template>
             <router-link to="/trade/buy">
@@ -84,7 +84,7 @@
           <!-- 清算 -->
           <h-submenu name="clear">
             <template v-slot:title>
-              <h-icon name="mail"></h-icon>
+              <h-icon name="refresh1"></h-icon>
               清算
             </template>
             <router-link to="/clear">
