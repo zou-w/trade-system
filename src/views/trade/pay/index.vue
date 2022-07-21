@@ -4,17 +4,17 @@
     <div class="content">
       <!-- 充值 -->
       <div>
-        <h-form :model="userInfo" :label-width="200">
+        <h-form :model="userInfo1" :label-width="200">
           <h-form-item label="输入用户姓名">
             <h-input
-              v-model="userInfo.cardName"
+              v-model="userInfo1.cardName"
               placeholder="请输入用户姓名"
               style="width: 300px"
             ></h-input>
           </h-form-item>
           <h-form-item label="输入用户身份证信息">
             <h-input
-              v-model="userInfo.cardNum"
+              v-model="userInfo1.cardNum"
               placeholder="请输入用户身份证信息"
               style="width: 300px"
               @on-blur="searchInfo"
@@ -22,7 +22,7 @@
           </h-form-item>
           <h-form-item label="选择银行卡">
             <h-select
-              v-model="userInfo.cardInfo"
+              v-model="userInfo1.cardInfo"
               placeholder="请选择"
               style="width: 300px"
             >
@@ -56,17 +56,17 @@
       </div>
       <!-- 提现 -->
       <div>
-        <h-form :model="userInfo" :label-width="200">
+        <h-form :model="userInfo2" :label-width="200">
           <h-form-item label="输入用户姓名">
             <h-input
-              v-model="userInfo.cardName"
+              v-model="userInfo2.cardName"
               placeholder="请输入用户姓名"
               style="width: 300px"
             ></h-input>
           </h-form-item>
           <h-form-item label="输入用户身份证信息">
             <h-input
-              v-model="userInfo.cardNum"
+              v-model="userInfo2.cardNum"
               placeholder="请输入用户身份证信息"
               style="width: 300px"
               @on-blur="searchInfo"
@@ -74,7 +74,7 @@
           </h-form-item>
           <h-form-item label="选择银行卡">
             <h-select
-              v-model="userInfo.cardInfo"
+              v-model="userInfo2.cardInfo"
               placeholder="请选择"
               style="width: 300px"
             >
@@ -120,7 +120,12 @@ export default {
   },
   data() {
     return {
-      userInfo: {
+      userInfo1: {
+        cardName: "",
+        cardNum: "",
+        cardInfo: "",
+      },
+      userInfo2: {
         cardName: "",
         cardNum: "",
         cardInfo: "",
@@ -139,8 +144,8 @@ export default {
           method: "post",
           url: "http://127.0.0.1:4523/m1/1300795-0-default/searchUser",
           data: {
-            cardName: this.userInfo.cardName,
-            cardNum: this.userInfo.cardNum,
+            cardName: this.userInfo1.cardName,
+            cardNum: this.userInfo1.cardNum,
           },
         })
         .then((res) => {
@@ -161,7 +166,7 @@ export default {
           method: "post",
           url: "http://127.0.0.1:4523/m1/1300795-0-default/recharge",
           data: {
-            ...this.userInfo,
+            ...this.userInfo1,
             rechargeValue: this.rechargeValue,
             rechargeTime: rechargeTime,
           },
@@ -182,7 +187,7 @@ export default {
           method: "post",
           url: "http://127.0.0.1:4523/m1/1300795-0-default/withdrawal",
           data: {
-            ...this.userInfo,
+            ...this.userInfo2,
             withdrawalValue: this.withdrawalValue,
             withdrawalTime: withdrawalTime,
           },
