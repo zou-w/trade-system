@@ -116,46 +116,20 @@ export const PRODUCT_LISTS_TITLE = [
 
 export const USER_TRADE_INFO = [
   {
-    title: "产品名称",
-    key: "productName",
+    title: "用户姓名",
+    key: "cardName",
   },
   {
-    title: "产品编号",
-    key: "productId",
+    title: "用户银行卡信息",
+    key: "cardInfo",
   },
   {
-    title: "产品类型",
-    key: "productType",
-  },
-  {
-    title: "产品总额",
-    key: "productNum",
-  },
-  {
-    title: "产品净值",
-    key: "productPrice",
-    sortable: true,
-    render: (h, params) => {
-      return h("Tag", params.row.productPrice);
-    },
-  },
-  {
-    title: "产品风险等级",
-    key: "productLevel",
+    title: "交易类型",
+    key: "tradeType",
     render: (h, params) => {
       const row = params.row;
-      const color =
-        row.productLevel === "high"
-          ? "red"
-          : row.productLevel === "low"
-          ? "green"
-          : "blue";
-      const text =
-        row.productLevel === "high"
-          ? "高风险"
-          : row.productLevel === "low"
-          ? "低风险"
-          : "中等风险";
+      const color = row.tradeType === "申购" ? "red" : "green";
+      const text = row.tradeType === "申购" ? "申购" : "赎回";
       return h(
         "Tag",
         {
@@ -167,5 +141,17 @@ export const USER_TRADE_INFO = [
         text
       );
     },
+  },
+  {
+    title: "交易金额",
+    key: "tradeValue",
+    render: (h, params) => {
+      return h("Tag", params.row.tradeValue);
+    },
+  },
+  {
+    title: "交易时间",
+    key: "tradeTime",
+    sortable: true,
   },
 ];

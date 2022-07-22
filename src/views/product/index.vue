@@ -11,7 +11,11 @@
               style="width: 300px"
               @on-blur="searchProduct"
             >
-              <h-icon name="android-person" slot="prepend"></h-icon>
+              <h-icon
+                name="android-cart
+                .icon-android-cart"
+                slot="prepend"
+              ></h-icon>
             </h-input>
           </h-form-item>
         </h-form>

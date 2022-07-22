@@ -5,13 +5,17 @@
         v-model="cardName"
         placeholder="请输入用户姓名"
         style="width: 300px"
-      ></h-input>
+      >
+        <h-icon name="android-person" slot="prepend"></h-icon>
+      </h-input>
       <h-input
         v-model="cardNum"
         placeholder="请输入用户身份证号码"
         style="width: 300px"
         :maxlength="18"
-      ></h-input>
+      >
+        <h-icon name="android-person" slot="prepend"></h-icon>
+      </h-input>
       <h-button type="primary" @click="searchSell">搜索</h-button>
     </div>
     <div class="content">

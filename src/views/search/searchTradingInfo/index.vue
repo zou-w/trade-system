@@ -1,25 +1,35 @@
 <template>
   <div class="open">
-    <div class="open-header">产品信息查询列表</div>
+    <div class="open-header">用户交易查询</div>
     <div class="content">
       <div class="searchTitle">
-        <h-form :model="formItem" :label-width="80">
-          <h-form-item label="搜索产品:">
+        <h-form :model="formItem" :label-width="120">
+          <h-form-item label="搜索用户交易查询:">
             <h-input
-              type="text"
-              v-model="formItem.productName"
-              placeholder="请输入搜索的产品"
+              v-model="formItem.cardName"
+              placeholder="请输入用户姓名"
               style="width: 300px"
-              @on-blur="searchProduct"
             >
               <h-icon name="android-person" slot="prepend"></h-icon>
             </h-input>
+            <h-input
+              v-model="formItem.cardNum"
+              placeholder="请输入用户身份证号码"
+              style="width: 300px"
+              :maxlength="18"
+              class="input-num"
+            >
+              <h-icon name="android-person" slot="prepend"></h-icon>
+            </h-input>
+            <h-button class="btn" type="primary" @click="searchTrade"
+              >搜索</h-button
+            >
           </h-form-item>
         </h-form>
       </div>
       <div class="showProducts">
         <h-table
-          :data="productLists"
+          :data="tradeLists"
           :columns="productListsTitle"
           stripe
         ></h-table>
@@ -35,42 +45,50 @@
 <script>
 import core from "@hsui/core";
 import { USER_TRADE_INFO } from "../../../constant/orm";
-import { fuzzySearch } from "../../../utils/search-utils";
 export default {
   data() {
     return {
       formItem: {
-        productName: "",
+        cardName: "",
+        cardNum: "",
       },
-      productLists: this.mockTableData1(),
+      tradeLists: this.mockTableData1(),
       productListsTitle: USER_TRADE_INFO,
     };
   },
   methods: {
-    searchProduct() {
-      this.productLists = fuzzySearch(
-        this.productLists,
-        this.formItem.productName
-      );
+    //搜索订单信息
+    searchTrade() {
+      core
+        .fetch({
+          method: "get",
+          url: "/api/searchTrade",
+          params: {
+            ...this.formItem,
+          },
+        })
+        .then((res) => {
+          this.tradeLists = res.data;
+          console.log("@", this.tradeLists);
+        });
     },
     //数据
     mockTableData1() {
       let data = [];
       for (let i = 0; i < 10; i++) {
         data.push({
-          productName: "商圈" + Math.floor(Math.random() * 100 + 1),
-          productLevel: Math.floor(Math.random() * 3 + 1),
-          productId: Math.floor(Math.random() * 7 + 1),
-          productType: Math.floor(Math.random() * 7 + 1),
-          productNum: Math.floor(Math.random() * 7 + 1),
-          productPrice: Math.floor(Math.random() * 7 + 1),
+          cardName: "商圈" + Math.floor(Math.random() * 100 + 1),
+          cardInfo: Math.floor(Math.random() * 3 + 1),
+          tradeType: Math.floor(Math.random() * 7 + 1),
+          tradeValue: Math.floor(Math.random() * 7 + 1),
+          tradeTime: Math.floor(Math.random() * 7 + 1),
         });
       }
       return data;
     },
     changePage() {
       // 这里直接更改了模拟的数据，真实使用场景应该从服务端获取数据
-      this.productLists = this.mockTableData1();
+      this.tradeLists = this.mockTableData1();
     },
   },
 };
@@ -95,6 +113,14 @@ export default {
     padding: 20px 10px;
     background-color: #fff;
     border-radius: 10px;
+    .searchTitle {
+      .input-num {
+        margin-left: 20px;
+      }
+      .btn {
+        margin-left: 100px;
+      }
+    }
   }
 }
 </style>
