@@ -112,7 +112,7 @@ export default {
       core
         .fetch({
           method: "post",
-          url: "http://127.0.0.1:4523/m1/1300795-0-default/createUserInfo",
+          url: "/api/createUserInfo",
           data: {
             ...this.formItem,
           },

@@ -5,7 +5,7 @@
       <!-- 充值 -->
       <div>
         <h-form :model="userInfo" :label-width="200">
-          <h-form-item label="输入用户姓名" prop="cardName" required>
+          <h-form-item label="输入用户姓名">
             <h-input
               v-model="userInfo.cardName"
               placeholder="请输入用户姓名"
@@ -114,9 +114,6 @@
 import core from "@hsui/core";
 import { format } from "../../../utils/format-utils";
 import MsgBox from "../../../components/MsgBox.vue";
-
-const cardInfoRule=/^([1-9]{1})(\d{14}|\d{18})$/; /** 银行卡号规范 */
-
 export default {
   components: {
     MsgBox,
@@ -132,10 +129,6 @@ export default {
       withdrawalValue: "",
       cardInfos: [],
       modal: true,
-
-      cardInfoRule: [
-          { test:cardInfoRule, message: "请输入正确格式", trigger: "blur" },
-        ]
     };
   },
   methods: {

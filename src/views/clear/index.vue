@@ -36,7 +36,6 @@
   </div>
 </template>
 
-
 <script>
 export default {
   data() {
@@ -69,8 +68,9 @@ export default {
 <style lang="less" scoped>
 .layout-content-main {
   display: flex;
-  justify-content: space-around;
   flex-direction: column;
+  justify-content: space-around;
+  padding: 0;
 }
 .container {
   display: flex;
@@ -109,15 +109,16 @@ export default {
 button {
   width: 150px;
   height: 50px;
-  background-color: #298dff;
-  border-radius: 60px;
-  border: none;
-  font-size: 20px;
-  color: white;
   margin-right: 30px;
+  color: white;
+  font-size: 20px;
+  background-color: #298dff;
+  border: none;
+  border-radius: 60px;
 }
 button:hover {
-  color: white;
+  color: #ffffff;
+  
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
@@ -128,4 +129,3 @@ button:active {
   transform: translateY(2px);
 }
 </style>
-
