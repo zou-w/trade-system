@@ -34,6 +34,7 @@
 </template>
 <script>
 import core from "@hsui/core";
+import { PRODUCT_LISTS_TITLE } from "../../../constant/orm";
 import { fuzzySearch } from "../../../utils/search-utils";
 export default {
   data() {
@@ -42,61 +43,7 @@ export default {
         productName: "",
       },
       productLists: this.mockTableData1(),
-      productListsTitle: [
-        {
-          title: "产品名称",
-          key: "productName",
-        },
-        {
-          title: "产品编号",
-          key: "productId",
-        },
-        {
-          title: "产品类型",
-          key: "productType",
-        },
-        {
-          title: "产品总额",
-          key: "productNum",
-        },
-        {
-          title: "产品净值",
-          key: "productPrice",
-          sortable: true,
-          render: (h, params) => {
-            return h("Tag", params.row.productPrice);
-          },
-        },
-        {
-          title: "产品风险等级",
-          key: "productLevel",
-          render: (h, params) => {
-            const row = params.row;
-            const color =
-              row.productLevel === "high"
-                ? "red"
-                : row.productLevel === "low"
-                ? "green"
-                : "blue";
-            const text =
-              row.productLevel === "high"
-                ? "高风险"
-                : row.productLevel === "low"
-                ? "低风险"
-                : "中等风险";
-            return h(
-              "Tag",
-              {
-                props: {
-                  type: "dot",
-                  color: color,
-                },
-              },
-              text
-            );
-          },
-        },
-      ],
+      productListsTitle: PRODUCT_LISTS_TITLE,
     };
   },
   methods: {

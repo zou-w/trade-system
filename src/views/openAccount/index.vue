@@ -93,7 +93,12 @@ export default {
         })
         .then((res) => {
           console.log(res);
-          this.$router.push("/openAccount/test");
+          this.$router.push({
+            path: "/openAccount/test",
+            query: {
+              userId: res.data.userId,
+            },
+          });
           //   if (res.data.state === "登录成功") {
           //   this.$router.push("/test");
           // }

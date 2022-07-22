@@ -1,2 +1,2 @@
-export * from './orm';
-export * from './test';
+export * from "./orm";
+export * from "./test";
