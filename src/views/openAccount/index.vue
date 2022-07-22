@@ -81,7 +81,7 @@ import core from "@hsui/core";
 
 const phoneNumrule = /^[1][3,4,5,7,8][0-9]{9}$/; /** 电话号码格式 */
 const cardNumrule = /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/; /**  身份证号格式 */
-const cardInforule=/^([1-9]{1})(\d{14}|\d{18})$/; /** 银行卡号格式 */
+const cardInforule=/^([1-9]{1})(\d{14}|\d{18})$/; /** 银行卡号 */
 export default {
   data() {
     return {

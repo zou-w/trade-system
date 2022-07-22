@@ -3,35 +3,35 @@
     <div class="open-header">用户申购</div>
     <div class="content">
       <h-form :model="buyInfo" :label-width="200">
-        <h-form-item label="用户姓名">
+        <h-form-item label="用户姓名" prop="cardName" required>
           <h-input
             v-model="buyInfo.cardName"
             placeholder="请输入姓名"
             style="width: 300px"
           ></h-input>
         </h-form-item>
-        <h-form-item label="用户银行卡号">
+        <h-form-item label="用户银行卡号" prop="cardInfo" :validRules="cardInfoRule" required>
           <h-input
             v-model="buyInfo.cardInfo"
             placeholder="请输入银行卡号码"
             style="width: 300px"
           ></h-input>
         </h-form-item>
-        <h-form-item label="购买产品编码">
+        <h-form-item label="购买产品编码" prop="productId" required>
           <h-input
             v-model="buyInfo.productId"
             placeholder="请输入购买产品编码"
             style="width: 300px"
           ></h-input>
         </h-form-item>
-        <h-form-item label="购买产品的名字">
+        <h-form-item label="购买产品的名字" prop="productName" required>
           <h-input
             v-model="buyInfo.productName"
             placeholder="请输入购买产品的名字"
             style="width: 300px"
           ></h-input>
         </h-form-item>
-        <h-form-item label="购买产品的金额">
+        <h-form-item label="购买产品的金额" prop="buyNum" required>
           <h-typefield
             v-model="buyInfo.buyNum"
             style="width: 300px"
@@ -69,6 +69,8 @@
 import core from "@hsui/core";
 import { format } from "../../../utils/format-utils";
 import MsgBox from "../../../components/MsgBox.vue";
+const cardInfoRule=/^([1-9]{1})(\d{14}|\d{18})$/; /** 银行卡号规范 */
+
 export default {
   components: {
     MsgBox,
@@ -85,6 +87,10 @@ export default {
       modal1: false,
       modal: true,
       buyMessage: "是否确定申购",
+
+       cardInfoRule: [
+          { test:cardInfoRule, message: "请输入正确格式", trigger: "blur" },
+        ]
     };
   },
   methods: {
