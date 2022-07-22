@@ -32,10 +32,9 @@ export default {
     //检测答题, 计算分数判断等级
     testIsNull() {
       this.answer1 = JSON.parse(JSON.stringify(this.answer));
-      console.log(this.animal1);
       if (
         this.answer1.every((x) => x != null) === true &&
-        this.animal1 != undefined
+        this.answer1 != undefined
       ) {
         //计算分数
         let count = 0;
@@ -62,6 +61,7 @@ export default {
     },
     submit() {
       const isNull = this.testIsNull();
+      console.log("@", isNull);
       if (isNull === false) {
         this.$hMessage.error("请完成答题");
       } else {
@@ -84,6 +84,7 @@ export default {
           .then((res) => {
             const { message } = res;
             this.$hMessage.success(message);
+            this.$router.push("/openAccount");
           });
       }
     },

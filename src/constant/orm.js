@@ -155,3 +155,30 @@ export const USER_TRADE_INFO = [
     sortable: true,
   },
 ];
+
+export const CLEAR_INFO = [
+  {
+    title: "时间",
+    key: "date",
+    sortable: true,
+  },
+  {
+    title: "状态",
+    key: "figureNum",
+    render: (h, params) => {
+      const row = params.row;
+      const color = row.figureNum === "false" ? "red" : "green";
+      const text = row.figureNum === "false" ? "未清算" : "清算";
+      return h(
+        "Tag",
+        {
+          props: {
+            type: "dot",
+            color: color,
+          },
+        },
+        text
+      );
+    },
+  },
+];

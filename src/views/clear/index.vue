@@ -13,10 +13,10 @@
         </div>
         <div class="btn">
           <div>
-            <button>清算</button>
+            <button @click="clear">清算</button>
           </div>
           <div>
-            <button>重新清算</button>
+            <button @click="reclear">重新清算</button>
           </div>
         </div>
       </div>
@@ -26,10 +26,9 @@
           height="400"
           width="300"
           :columns="columns1"
-          :data="data2"
+          :data="clearLog"
           headAlgin="center"
           bodyAlgin="center"
-          adaptiveNoDataHeight="true"
         ></h-table>
       </div>
     </div>
@@ -37,178 +36,70 @@
 </template>
 
 <script>
+import core from "@hsui/core";
+import { format } from "../../utils/format-utils";
+import { CLEAR_INFO } from "../../constant/orm";
 export default {
   data() {
     return {
-      columns1: [
-        {
-          title: "时间",
-          key: "time",
-        },
-        {
-          title: "状态",
-          key: "status",
-        },
-      ],
-      data2: [
-        {
-          time: "王小明",
-          status: "北京市朝阳区芍药居",
-        },
-        {
-          time: "张小刚",
-          status: "北京市海淀区西二旗",
-        },
-        {
-          time: "李小红",
-          status: "上海市浦东新区世纪大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "王小明",
-          status: "北京市朝阳区芍药居",
-        },
-        {
-          time: "张小刚",
-          status: "北京市海淀区西二旗",
-        },
-        {
-          time: "李小红",
-          status: "上海市浦东新区世纪大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "王小明",
-          status: "北京市朝阳区芍药居",
-        },
-        {
-          time: "张小刚",
-          status: "北京市海淀区西二旗",
-        },
-        {
-          time: "李小红",
-          status: "上海市浦东新区世纪大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "王小明",
-          status: "北京市朝阳区芍药居",
-        },
-        {
-          time: "张小刚",
-          status: "北京市海淀区西二旗",
-        },
-        {
-          time: "李小红",
-          status: "上海市浦东新区世纪大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "王小明",
-          status: "北京市朝阳区芍药居",
-        },
-        {
-          time: "张小刚",
-          status: "北京市海淀区西二旗",
-        },
-        {
-          time: "李小红",
-          status: "上海市浦东新区世纪大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "王小明",
-          status: "北京市朝阳区芍药居",
-        },
-        {
-          time: "张小刚",
-          status: "北京市海淀区西二旗",
-        },
-        {
-          time: "李小红",
-          status: "上海市浦东新区世纪大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-        {
-          time: "周小伟",
-          status: "深圳市南山区深南大道",
-        },
-      ],
+      columns1: CLEAR_INFO,
+      clearLog: [],
     };
+  },
+  methods: {
+    getClearLog() {
+      core
+        .fetch({
+          method: "get",
+          url: "/api/clearLog",
+          params: {
+            showClearLog: "",
+          },
+        })
+        .then((res) => {
+          this.clearLog = res.data;
+          console.log("@", this.clearLog);
+        });
+    },
+    clear() {
+      let Time1 = Date.now();
+      let Time = format(Time1);
+      core
+        .fetch({
+          method: "post",
+          url: "/api/clear",
+          data: {
+            figure: 0,
+            clearData: Time,
+          },
+        })
+        .then((res) => {
+          const { message } = res.data;
+          this.$hMessage.success(message);
+          location.reload();
+        });
+    },
+    reclear() {
+      let Time1 = Date.now();
+      let Time = format(Time1);
+      core
+        .fetch({
+          method: "post",
+          url: "/api/reclear",
+          data: {
+            figure: 0,
+            clearData: Time,
+          },
+        })
+        .then((res) => {
+          const { message } = res.data;
+          this.$hMessage.success(message);
+          location.reload();
+        });
+    },
+  },
+  created() {
+    this.getClearLog();
   },
 };
 </script>

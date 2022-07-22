@@ -41,7 +41,6 @@
 </template>
 <script>
 import core from "@hsui/core";
-// import { SELL_TABLE } from "../../../constant/index";
 import TradeInfo from "../../../components/TradingInfo.vue";
 export default {
   components: {
