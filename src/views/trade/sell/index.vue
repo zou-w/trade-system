@@ -3,14 +3,18 @@
     <div class="open-header">
       <h-input
         v-model="cardName"
+        id="userName"
         placeholder="请输入用户姓名"
         style="width: 300px"
+        clearable="true"
       ></h-input>
       <h-input
+        required
         v-model="cardNum"
         placeholder="请输入用户身份证号码"
         style="width: 300px"
         :maxlength="18"
+        clearable="true"
       ></h-input>
       <h-button type="primary" @click="searchSell">搜索</h-button>
     </div>
@@ -120,6 +124,8 @@ export default {
     };
   },
   methods: {
+
+
     searchSell() {
       core
         .fetch({
@@ -144,7 +150,7 @@ export default {
       console.log("@@");
     },
   },
-};
+  }
 </script>
 
 <style lang="less" scoped>

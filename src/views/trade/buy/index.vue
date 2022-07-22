@@ -3,7 +3,7 @@
     <div class="open-header">用户申购</div>
     <div class="content">
       <h-form :model="buyInfo" :label-width="200">
-        <h-form-item label="用户姓名" prop="cardName" required>
+        <h-form-item label="用户姓名" prop="cardName" :validRules="nameRule" required>
           <h-input
             v-model="buyInfo.cardName"
             placeholder="请输入姓名"
@@ -69,13 +69,18 @@
 import core from "@hsui/core";
 import { format } from "../../../utils/format-utils";
 import MsgBox from "../../../components/MsgBox.vue";
-const cardInfoRule=/^([1-9]{1})(\d{14}|\d{18})$/; /** 银行卡号规范 */
 
 export default {
+  
   components: {
     MsgBox,
   },
   data() {
+
+  const cardInfoRule=/^([1-9]{1})(\d{14}|\d{18})$/; /** 银行卡号规范 */
+  const nameRule= /^[\u4E00-\u9FA5A-Za-z\s]+(·[\u4E00-\u9FA5A-Za-z]+)*$/;  /** 姓名规范 */
+
+
     return {
       buyInfo: {
         productId: "",
@@ -89,7 +94,10 @@ export default {
       buyMessage: "是否确定申购",
 
        cardInfoRule: [
-          { test:cardInfoRule, message: "请输入正确格式", trigger: "blur" },
+          { test:cardInfoRule, message: "请输入正确身份证", trigger: "blur" },
+        ],
+        nameRule: [
+          { test:nameRule, message: "请输入正确姓名", trigger: "blur" },
         ]
     };
   },

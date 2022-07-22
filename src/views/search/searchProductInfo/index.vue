@@ -32,6 +32,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import core from "@hsui/core";
 import { fuzzySearch } from "../../../utils/search-utils";

@@ -4,25 +4,25 @@
     <div class="content">
       <!-- 充值 -->
       <div>
-        <h-form :model="userInfo" :label-width="200">
-          <h-form-item label="输入用户姓名">
+        <h-form :model="userInfo1" :label-width="200">
+          <h-form-item label="输入用户姓名" prop="cardName"  :validRules="nameRule" required>
             <h-input
-              v-model="userInfo.cardName"
+              v-model="userInfo1.cardName"
               placeholder="请输入用户姓名"
               style="width: 300px"
             ></h-input>
           </h-form-item>
-          <h-form-item label="输入用户身份证信息">
+          <h-form-item label="输入用户身份证信息" prop="cardNum" :validRules="cardNumRule" required>
             <h-input
-              v-model="userInfo.cardNum"
+              v-model="userInfo1.cardNum"
               placeholder="请输入用户身份证信息"
               style="width: 300px"
               @on-blur="searchInfo"
             ></h-input>
           </h-form-item>
-          <h-form-item label="选择银行卡">
+          <h-form-item label="选择银行卡" prop="cardInfo" required>
             <h-select
-              v-model="userInfo.cardInfo"
+              v-model="userInfo1.cardInfo"
               placeholder="请选择"
               style="width: 300px"
             >
@@ -31,9 +31,9 @@
               }}</h-option>
             </h-select>
           </h-form-item>
-          <h-form-item label="请选择充值金额">
+          <h-form-item label="请选择充值金额" prop="rechargeValue" :validRules="moneyRule" required>
             <h-typefield
-              v-model="rechargeValue"
+              v-model="userInfo1.rechargeValue"
               style="width: 300px"
               integerNum="8"
               type="money"
@@ -56,25 +56,25 @@
       </div>
       <!-- 提现 -->
       <div>
-        <h-form :model="userInfo" :label-width="200">
-          <h-form-item label="输入用户姓名">
+        <h-form :model="userInfo2" :label-width="200" >
+          <h-form-item label="输入用户姓名" prop="cardName" :validRules="nameRule" required>
             <h-input
-              v-model="userInfo.cardName"
+              v-model="userInfo2.cardName"
               placeholder="请输入用户姓名"
               style="width: 300px"
             ></h-input>
           </h-form-item>
-          <h-form-item label="输入用户身份证信息">
+          <h-form-item label="输入用户身份证信息" prop="cardNum" :validRules="cardNumRule" required>
             <h-input
-              v-model="userInfo.cardNum"
+              v-model="userInfo2.cardNum"
               placeholder="请输入用户身份证信息"
               style="width: 300px"
               @on-blur="searchInfo"
             ></h-input>
           </h-form-item>
-          <h-form-item label="选择银行卡">
+          <h-form-item label="选择银行卡" prop="cardInfo" required>
             <h-select
-              v-model="userInfo.cardInfo"
+              v-model="userInfo2.cardInfo"
               placeholder="请选择"
               style="width: 300px"
             >
@@ -83,9 +83,9 @@
               }}</h-option>
             </h-select>
           </h-form-item>
-          <h-form-item label="请选择提现金额">
+          <h-form-item label="请选择提现金额" prop="withdrawalValue" :validRules="moneyRule" required>
             <h-typefield
-              v-model="withdrawalValue"
+              v-model="userInfo2.withdrawalValue"
               style="width: 300px"
               integerNum="8"
               type="money"
@@ -114,21 +114,46 @@
 import core from "@hsui/core";
 import { format } from "../../../utils/format-utils";
 import MsgBox from "../../../components/MsgBox.vue";
+
+
+
 export default {
   components: {
     MsgBox,
   },
   data() {
+
+const cardNumrule = /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/; /**  身份证号格式 */
+const nameRule= /^[\u4E00-\u9FA5A-Za-z\s]+(·[\u4E00-\u9FA5A-Za-z]+)*$/;  /** 姓名规范 */
+const moneyRule=/^[0-9]*[1-9][0-9]*$/;  /** 金额规范 */
     return {
-      userInfo: {
+      userInfo1: {
         cardName: "",
         cardNum: "",
         cardInfo: "",
+        rechargeValue: "",
+      },
+      userInfo2: {
+        cardName: "",
+        cardNum: "",
+        cardInfo: "",
+        withdrawalValue: "",
       },
       rechargeValue: "",
       withdrawalValue: "",
       cardInfos: [],
       modal: true,
+
+         cardNumRule: [
+          { test: cardNumrule, message: "请输入正确身份证号", trigger: "blur" },
+        ],
+        nameRule: [
+          { test: nameRule, message: "请输入正确姓名", trigger: "blur" },
+        ],
+        moneyRule:[{
+           test: moneyRule, message: "金额只能为整数", trigger: "blur" },
+        ],
+        
     };
   },
   methods: {
@@ -137,10 +162,10 @@ export default {
       core
         .fetch({
           method: "post",
-          url: "http://127.0.0.1:4523/m1/1300795-0-default/searchUser",
+          url: "/api/searchUser",
           data: {
-            cardName: this.userInfo.cardName,
-            cardNum: this.userInfo.cardNum,
+            cardName: this.userInfo1.cardName,
+            cardNum: this.userInfo1.cardNum,
           },
         })
         .then((res) => {
@@ -159,9 +184,9 @@ export default {
       core
         .fetch({
           method: "post",
-          url: "http://127.0.0.1:4523/m1/1300795-0-default/recharge",
+          url: "/api/recharge",
           data: {
-            ...this.userInfo,
+            ...this.userInfo1,
             rechargeValue: this.rechargeValue,
             rechargeTime: rechargeTime,
           },
@@ -180,9 +205,9 @@ export default {
       core
         .fetch({
           method: "post",
-          url: "http://127.0.0.1:4523/m1/1300795-0-default/withdrawal",
+          url: "/api/withdrawal",
           data: {
-            ...this.userInfo,
+            ...this.userInfo2,
             withdrawalValue: this.withdrawalValue,
             withdrawalTime: withdrawalTime,
           },

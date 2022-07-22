@@ -29,6 +29,7 @@
           :data="data2"
           headAlgin="center"
           bodyAlgin="center"
+          color="red"
           adaptiveNoDataHeight="true"
         ></h-table>
       </div>
@@ -71,6 +72,10 @@ export default {
   flex-direction: column;
   justify-content: space-around;
   padding: 0;
+  background-color: white;
+  border-radius: 10px;
+  overflow: auto;
+  height: 83vh;
 }
 .container {
   display: flex;

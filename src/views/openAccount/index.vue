@@ -18,7 +18,7 @@
           </h-select>
         </h-form-item>
 
-        <h-form-item label="用户姓名" prop="cardName" required>
+        <h-form-item label="用户姓名" prop="cardName" :validRules="nameRule" required>
           <h-input
             v-model="formItem.cardName"
             placeholder="请输入姓名"
@@ -79,6 +79,7 @@
 <script>
 import core from "@hsui/core";
 
+const nameRule= /^[\u4E00-\u9FA5A-Za-z\s]+(·[\u4E00-\u9FA5A-Za-z]+)*$/;  /** 姓名规范 */
 const phoneNumrule = /^[1][3,4,5,7,8][0-9]{9}$/; /** 电话号码格式 */
 const cardNumrule = /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/; /**  身份证号格式 */
 const cardInforule=/^([1-9]{1})(\d{14}|\d{18})$/; /** 银行卡号 */
@@ -95,13 +96,16 @@ export default {
       },
 
         phoneNumRule: [
-          { test:phoneNumrule,message:"请输入正确格式",trigger:"blur"}
+          { test:phoneNumrule,message:"请输入正确电话号码",trigger:"blur"}
         ],
         cardNumRule: [
-          { test: cardNumrule, message: "请输入正确格式", trigger: "blur" },
+          { test: cardNumrule, message: "请输入正确身份证号", trigger: "blur" },
         ],
         cardInfoRule: [
-          { test:cardInforule, message: "请输入正确格式", trigger: "blur" },
+          { test:cardInforule, message: "请输入正确银行卡号", trigger: "blur" },
+        ],
+         nameRule: [
+          { test: nameRule, message: "请输入正确姓名", trigger: "blur" },
         ],
     
     };

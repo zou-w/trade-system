@@ -1,10 +1,14 @@
 <template>
-  <div class="open">
-    <div class="open-header">标题</div>
-    <div class="content">内容</div>
-    <div class="open-footer">底部</div>
+<div class="open">
+  <div class="open-header">用户信息查询</div>
+    <div class="content">
+    
   </div>
+</div>
+
+
 </template>
+
 <script>
 import core from "@hsui/core";
 export default {
@@ -29,17 +33,9 @@ export default {
   }
   .content {
     width: 100%;
-    height: 400px;
+    height: 530px;
     margin-top: 40px;
-    padding: 30px 10px;
-    background-color: #fff;
-    border-radius: 10px;
-  }
-  .open-footer {
-    width: 100%;
-    height: 100px;
-    margin-top: 40px;
-    padding: 10px 0;
+    padding: 20px 10px;
     background-color: #fff;
     border-radius: 10px;
   }
