@@ -7,7 +7,7 @@
         id="userName"
         placeholder="请输入用户姓名"
         style="width: 300px"
-        clearable="true"
+        :clearable="true"
       ></h-input>
       <h-input
         required
@@ -15,7 +15,7 @@
         placeholder="请输入用户身份证号码"
         style="width: 300px"
         :maxlength="18"
-        clearable="true"
+        :clearable="true"
       ></h-input>
       <h-button type="primary" @click="search">搜索</h-button>
     </div>
@@ -47,7 +47,6 @@
                   :notSetWidth="true"
                   max-height="100"
                   height="300px"
-                  @on-scroll="onScroll"
                 ></h-table>
               </div>
             </h-card>

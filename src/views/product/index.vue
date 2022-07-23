@@ -188,7 +188,6 @@ export default {
           this.formItem.productName
         );
       }
-      console.log(this.formItem.productName);
     },
     //选中状态
     selectInfo(e) {

@@ -93,6 +93,7 @@ export default {
           },
         })
         .then((res) => {
+          this.$hMessage.info(res.message);
           location.reload();
         });
     },
@@ -109,6 +110,7 @@ export default {
           },
         })
         .then((res) => {
+          this.$hMessage.info(res.message);
           location.reload();
         });
     },

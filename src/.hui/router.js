@@ -64,11 +64,6 @@ export default initRouter(
           component: TradePayIndex
         },
         {
-          name: 'trade-repeal-index',
-          path: 'trade/repeal',
-          component: TradeRepealIndex
-        },
-        {
           name: 'trade-sell-index',
           path: 'trade/sell',
           component: TradeSellIndex
@@ -131,11 +126,6 @@ function TradeBuyIndex() {
 function TradePayIndex() {
   return import(
     /* webpackChunkName: "trade-pay-index" */ '@/views/trade/pay/index.vue'
-  )
-}
-function TradeRepealIndex() {
-  return import(
-    /* webpackChunkName: "trade-repeal-index" */ '@/views/trade/repeal/index.vue'
   )
 }
 function TradeSellIndex() {

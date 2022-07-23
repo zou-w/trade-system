@@ -14,9 +14,9 @@
           :open-names="['1']"
         >
           <div class="layout-logo-left"></div>
-          <h-menu-item name="home">
-            <router-link to="/">首页</router-link>
-          </h-menu-item>
+          <router-link to="/">
+            <h-menu-item name="home"> 首页 </h-menu-item>
+          </router-link>
           <!-- 开户 -->
           <h-submenu name="openAccount">
             <template v-slot:title>
@@ -73,9 +73,6 @@
             </router-link>
             <router-link to="/trade/sell">
               <h-menu-item name="sell"> 赎回 </h-menu-item>
-            </router-link>
-            <router-link to="/trade/repeal">
-              <h-menu-item name="repeal"> 撤销 </h-menu-item>
             </router-link>
             <router-link to="/trade/pay">
               <h-menu-item name="pay"> 充值/提现 </h-menu-item>

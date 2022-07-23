@@ -69,10 +69,14 @@ export default {
         });
     },
     searchProduct() {
-      this.productLists = fuzzySearch(
-        this.productLists,
-        this.formItem.productName
-      );
+      if (this.formItem.productName === "") {
+        this.searchUserProduct();
+      } else {
+        this.productLists = fuzzySearch(
+          this.productLists,
+          this.formItem.productName
+        );
+      }
     },
     changePage() {
       // 这里直接更改了模拟的数据，真实使用场景应该从服务端获取数据
