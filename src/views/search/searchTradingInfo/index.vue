@@ -52,13 +52,16 @@ export default {
         cardName: "",
         cardNum: "",
       },
-      tradeLists: this.mockTableData1(),
+      tradeLists: [],
       productListsTitle: USER_TRADE_INFO,
     };
   },
   methods: {
-    //搜索订单信息
     searchTrade() {
+      this.searchUserTrade();
+    },
+    //搜索订单信息
+    searchUserTrade() {
       core
         .fetch({
           method: "get",
@@ -68,27 +71,14 @@ export default {
           },
         })
         .then((res) => {
+          const { message } = res.data;
           this.tradeLists = res.data;
-          console.log("@", this.tradeLists);
+          this.$hMessage.info(message);
         });
-    },
-    //数据
-    mockTableData1() {
-      let data = [];
-      for (let i = 0; i < 10; i++) {
-        data.push({
-          cardName: "商圈" + Math.floor(Math.random() * 100 + 1),
-          cardInfo: Math.floor(Math.random() * 3 + 1),
-          tradeType: Math.floor(Math.random() * 7 + 1),
-          tradeValue: Math.floor(Math.random() * 7 + 1),
-          tradeTime: Math.floor(Math.random() * 7 + 1),
-        });
-      }
-      return data;
     },
     changePage() {
       // 这里直接更改了模拟的数据，真实使用场景应该从服务端获取数据
-      this.tradeLists = this.mockTableData1();
+      this.tradeLists = this.searchUserTrade();
     },
   },
 };

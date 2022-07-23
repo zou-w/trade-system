@@ -4,15 +4,25 @@
     <div class="content">
       <!-- 充值 -->
       <div>
-        <h-form :model="userInfo1" :label-width="200">
-          <h-form-item label="输入用户姓名">
+        <h-form ref="userInfo1" :model="userInfo1" :label-width="200">
+          <h-form-item
+            label="输入用户姓名"
+            prop="cardName"
+            :validRules="nameRule"
+            required
+          >
             <h-input
               v-model="userInfo1.cardName"
               placeholder="请输入用户姓名"
               style="width: 300px"
             ></h-input>
           </h-form-item>
-          <h-form-item label="输入用户身份证信息">
+          <h-form-item
+            label="输入用户身份证信息"
+            prop="cardNum"
+            :validRules="cardNumRule"
+            required
+          >
             <h-input
               v-model="userInfo1.cardNum"
               placeholder="请输入用户身份证信息"
@@ -20,7 +30,7 @@
               @on-blur="searchInfo"
             ></h-input>
           </h-form-item>
-          <h-form-item label="选择银行卡">
+          <h-form-item label="选择银行卡" prop="cardInfo" required>
             <h-select
               v-model="userInfo1.cardInfo"
               placeholder="请选择"
@@ -31,9 +41,14 @@
               }}</h-option>
             </h-select>
           </h-form-item>
-          <h-form-item label="请选择充值金额">
+          <h-form-item
+            label="请选择充值金额"
+            prop="rechargeValue"
+            :validRules="moneyRule"
+            required
+          >
             <h-typefield
-              v-model="rechargeValue"
+              v-model="userInfo1.rechargeValue"
               style="width: 300px"
               integerNum="8"
               type="money"
@@ -48,7 +63,7 @@
               nativeType="button"
               type="primary"
               style="width: 200px"
-              @click="recharge"
+              @click="recharge('userInfo1')"
               >充值</h-button
             >
           </h-form-item>
@@ -56,15 +71,25 @@
       </div>
       <!-- 提现 -->
       <div>
-        <h-form :model="userInfo2" :label-width="200">
-          <h-form-item label="输入用户姓名">
+        <h-form ref="userInfo2" :model="userInfo2" :label-width="200">
+          <h-form-item
+            label="输入用户姓名"
+            prop="cardName"
+            :validRules="nameRule"
+            required
+          >
             <h-input
               v-model="userInfo2.cardName"
               placeholder="请输入用户姓名"
               style="width: 300px"
             ></h-input>
           </h-form-item>
-          <h-form-item label="输入用户身份证信息">
+          <h-form-item
+            label="输入用户身份证信息"
+            prop="cardNum"
+            :validRules="cardNumRule"
+            required
+          >
             <h-input
               v-model="userInfo2.cardNum"
               placeholder="请输入用户身份证信息"
@@ -72,7 +97,7 @@
               @on-blur="searchInfo"
             ></h-input>
           </h-form-item>
-          <h-form-item label="选择银行卡">
+          <h-form-item label="选择银行卡" prop="cardInfo" required>
             <h-select
               v-model="userInfo2.cardInfo"
               placeholder="请选择"
@@ -83,9 +108,14 @@
               }}</h-option>
             </h-select>
           </h-form-item>
-          <h-form-item label="请选择提现金额">
+          <h-form-item
+            label="请选择提现金额"
+            prop="withdrawalValue"
+            :validRules="moneyRule"
+            required
+          >
             <h-typefield
-              v-model="withdrawalValue"
+              v-model="userInfo2.withdrawalValue"
               style="width: 300px"
               integerNum="8"
               type="money"
@@ -99,7 +129,7 @@
               nativeType="button"
               type="primary"
               style="width: 200px"
-              @click="withdrawal"
+              @click="withdrawal('userInfo2')"
               >提现</h-button
             >
           </h-form-item>
@@ -119,21 +149,42 @@ export default {
     MsgBox,
   },
   data() {
+    const cardNumrule =
+      /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/; /**  身份证号格式 */
+    const nameRule =
+      /^[\u4E00-\u9FA5A-Za-z\s]+(·[\u4E00-\u9FA5A-Za-z]+)*$/; /** 姓名规范 */
+    const moneyRule = /^[0-9]*[1-9][0-9]*$/; /** 金额规范 */
     return {
       userInfo1: {
         cardName: "",
         cardNum: "",
         cardInfo: "",
+        rechargeValue: "",
       },
       userInfo2: {
         cardName: "",
         cardNum: "",
         cardInfo: "",
+        withdrawalValue: "",
       },
       rechargeValue: "",
       withdrawalValue: "",
       cardInfos: [],
       modal: true,
+
+      cardNumRule: [
+        { test: cardNumrule, message: "请输入正确身份证号", trigger: "blur" },
+      ],
+      nameRule: [
+        { test: nameRule, message: "请输入正确姓名", trigger: "blur" },
+      ],
+      moneyRule: [
+        {
+          test: moneyRule,
+          message: "金额只能为整数",
+          trigger: "blur",
+        },
+      ],
     };
   },
   methods: {
@@ -159,46 +210,58 @@ export default {
         });
     },
     //充值
-    recharge() {
+    recharge(name) {
       let rechargeTime = this.newTime();
-      core
-        .fetch({
-          method: "post",
-          url: "/api/recharge",
-          data: {
-            ...this.userInfo1,
-            rechargeValue: this.rechargeValue,
-            rechargeTime: rechargeTime,
-          },
-        })
-        .then((res) => {
-          console.log("充值", res.data);
-          this.$refs.tradeInfo.rechargeModal(this.modal, res.data);
-          //   if (res.data.state === "登录成功") {
-          //   this.$router.push("/test");
-          // }
-        });
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          core
+            .fetch({
+              method: "post",
+              url: "/api/recharge",
+              data: {
+                ...this.userInfo1,
+                rechargeValue: this.rechargeValue,
+                rechargeTime: rechargeTime,
+              },
+            })
+            .then((res) => {
+              console.log("充值", res.data);
+              this.$refs.tradeInfo.rechargeModal(this.modal, res.data);
+              //   if (res.data.state === "登录成功") {
+              //   this.$router.push("/test");
+              // }
+            });
+        } else {
+          this.$hMessage.error("表单验证失败!");
+        }
+      });
     },
     //提现
-    withdrawal() {
+    withdrawal(name) {
       let withdrawalTime = this.newTime();
-      core
-        .fetch({
-          method: "post",
-          url: "/api/withdrawal",
-          data: {
-            ...this.userInfo2,
-            withdrawalValue: this.withdrawalValue,
-            withdrawalTime: withdrawalTime,
-          },
-        })
-        .then((res) => {
-          console.log("充值", res.data);
-          this.$refs.tradeInfo.withdrawalModal(this.modal, res.data);
-          //   if (res.data.state === "登录成功") {
-          //   this.$router.push("/test");
-          // }
-        });
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          core
+            .fetch({
+              method: "post",
+              url: "/api/withdrawal",
+              data: {
+                ...this.userInfo2,
+                withdrawalValue: this.withdrawalValue,
+                withdrawalTime: withdrawalTime,
+              },
+            })
+            .then((res) => {
+              console.log("充值", res.data);
+              this.$refs.tradeInfo.withdrawalModal(this.modal, res.data);
+              //   if (res.data.state === "登录成功") {
+              //   this.$router.push("/test");
+              // }
+            });
+        } else {
+          this.$hMessage.error("表单验证失败!");
+        }
+      });
     },
     //新建时间
     newTime() {

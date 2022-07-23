@@ -3,12 +3,14 @@
     <div class="open-header">
       <h-input
         v-model="cardName"
+        id="userName"
         placeholder="请输入用户姓名"
         style="width: 300px"
       >
         <h-icon name="android-person" slot="prepend"></h-icon>
       </h-input>
       <h-input
+        required
         v-model="cardNum"
         placeholder="请输入用户身份证号码"
         style="width: 300px"

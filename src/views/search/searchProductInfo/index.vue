@@ -36,6 +36,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import core from "@hsui/core";
 import { PRODUCT_LISTS_TITLE } from "../../../constant/orm";
@@ -46,36 +47,40 @@ export default {
       formItem: {
         productName: "",
       },
-      productLists: this.mockTableData1(),
+      productLists: [],
       productListsTitle: PRODUCT_LISTS_TITLE,
     };
   },
   methods: {
+    searchUserProduct() {
+      core
+        .fetch({
+          method: "get",
+          url: "/api/showProduct",
+          data: {
+            allProduct: 1,
+          },
+        })
+        .then((res) => {
+          const { message } = res;
+          console.log(res.data);
+          this.productLists = res.data;
+          this.$hMessage.info(message);
+        });
+    },
     searchProduct() {
       this.productLists = fuzzySearch(
         this.productLists,
         this.formItem.productName
       );
     },
-    //数据
-    mockTableData1() {
-      let data = [];
-      for (let i = 0; i < 10; i++) {
-        data.push({
-          productName: "商圈" + Math.floor(Math.random() * 100 + 1),
-          productLevel: Math.floor(Math.random() * 3 + 1),
-          productId: Math.floor(Math.random() * 7 + 1),
-          productType: Math.floor(Math.random() * 7 + 1),
-          productNum: Math.floor(Math.random() * 7 + 1),
-          productPrice: Math.floor(Math.random() * 7 + 1),
-        });
-      }
-      return data;
-    },
     changePage() {
       // 这里直接更改了模拟的数据，真实使用场景应该从服务端获取数据
-      this.productLists = this.mockTableData1();
+      this.productLists = this.searchUserProduct();
     },
+  },
+  created() {
+    this.searchUserProduct();
   },
 };
 </script>
