@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 export default {
   data() {
     return {
@@ -124,36 +124,32 @@ export default {
     },
     //查询用户信息
     searchUser() {
-      core
-        .fetch({
-          method: "post",
-          url: "/api/searchUser",
-          params: {
-            cardName: this.ardName,
-            cardNum: this.cardNum,
-          },
-        })
-        .then((res) => {
-          const { message, data } = res;
-          this.userInfo = data;
-          this.$hMessage.info(message);
-        });
+      request({
+        method: "post",
+        url: "/searchUser",
+        params: {
+          cardName: this.ardName,
+          cardNum: this.cardNum,
+        },
+      }).then((res) => {
+        const { message, data } = res;
+        this.userInfo = data;
+        this.$hMessage.info(message);
+      });
     },
     //查询用户提现充值信息
     searchRecharge() {
-      core
-        .fetch({
-          method: "get",
-          url: "/api/searchRecharge",
-          params: {
-            cardName: this.ardName,
-            cardNum: this.cardNum,
-          },
-        })
-        .then((res) => {
-          const { data } = res;
-          this.tradeInfo = data;
-        });
+      request({
+        method: "get",
+        url: "/searchRecharge",
+        params: {
+          cardName: this.ardName,
+          cardNum: this.cardNum,
+        },
+      }).then((res) => {
+        const { data } = res;
+        this.tradeInfo = data;
+      });
     },
   },
 };

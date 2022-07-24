@@ -141,7 +141,7 @@
   </div>
 </template>
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 import { format } from "../../../utils/format-utils";
 import MsgBox from "../../../components/MsgBox.vue";
 export default {
@@ -190,47 +190,43 @@ export default {
   methods: {
     searchInfo() {
       //查询用户信息
-      core
-        .fetch({
-          method: "post",
-          url: "/api/searchUser",
-          data: {
-            cardName: this.userInfo1.cardName,
-            cardNum: this.userInfo1.cardNum,
-          },
-        })
-        .then((res) => {
-          this.cardInfos = [];
-          res.data.map((item) => {
-            this.cardInfos.push(item.cardInfo);
-          });
-          //   if (res.data.state === "登录成功") {
-          //   this.$router.push("/test");
-          // }
+      request({
+        method: "post",
+        url: "/searchUser",
+        data: {
+          cardName: this.userInfo1.cardName,
+          cardNum: this.userInfo1.cardNum,
+        },
+      }).then((res) => {
+        this.cardInfos = [];
+        res.data.map((item) => {
+          this.cardInfos.push(item.cardInfo);
         });
+        //   if (res.data.state === "登录成功") {
+        //   this.$router.push("/test");
+        // }
+      });
     },
     //充值
     recharge(name) {
       let rechargeTime = this.newTime();
       this.$refs[name].validate((valid) => {
         if (valid) {
-          core
-            .fetch({
-              method: "post",
-              url: "/api/recharge",
-              data: {
-                ...this.userInfo1,
-                rechargeValue: this.rechargeValue,
-                rechargeTime: rechargeTime,
-              },
-            })
-            .then((res) => {
-              console.log("充值", res.data);
-              this.$refs.tradeInfo.rechargeModal(this.modal, res.data);
-              //   if (res.data.state === "登录成功") {
-              //   this.$router.push("/test");
-              // }
-            });
+          request({
+            method: "post",
+            url: "/recharge",
+            data: {
+              ...this.userInfo1,
+              rechargeValue: this.rechargeValue,
+              rechargeTime: rechargeTime,
+            },
+          }).then((res) => {
+            console.log("充值", res.data);
+            this.$refs.tradeInfo.rechargeModal(this.modal, res.data);
+            //   if (res.data.state === "登录成功") {
+            //   this.$router.push("/test");
+            // }
+          });
         } else {
           this.$hMessage.error("表单验证失败!");
         }
@@ -241,23 +237,21 @@ export default {
       let withdrawalTime = this.newTime();
       this.$refs[name].validate((valid) => {
         if (valid) {
-          core
-            .fetch({
-              method: "post",
-              url: "/api/withdrawal",
-              data: {
-                ...this.userInfo2,
-                withdrawalValue: this.withdrawalValue,
-                withdrawalTime: withdrawalTime,
-              },
-            })
-            .then((res) => {
-              console.log("充值", res.data);
-              this.$refs.tradeInfo.withdrawalModal(this.modal, res.data);
-              //   if (res.data.state === "登录成功") {
-              //   this.$router.push("/test");
-              // }
-            });
+          request({
+            method: "post",
+            url: "/withdrawal",
+            data: {
+              ...this.userInfo2,
+              withdrawalValue: this.withdrawalValue,
+              withdrawalTime: withdrawalTime,
+            },
+          }).then((res) => {
+            console.log("充值", res.data);
+            this.$refs.tradeInfo.withdrawalModal(this.modal, res.data);
+            //   if (res.data.state === "登录成功") {
+            //   this.$router.push("/test");
+            // }
+          });
         } else {
           this.$hMessage.error("表单验证失败!");
         }

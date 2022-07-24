@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 import { QUESTIONS } from "../../../constant/index";
 export default {
   data() {
@@ -72,20 +72,18 @@ export default {
         } else {
           this.userRiskLevel = "激进型";
         }
-        core
-          .fetch({
-            method: "get",
-            url: "/api/userLevel",
-            params: {
-              userId: this.$route.query,
-              userRiskLevel: this.userRiskLevel,
-            },
-          })
-          .then((res) => {
-            const { message } = res;
-            this.$hMessage.success(message);
-            this.$router.push("/openAccount");
-          });
+        request({
+          method: "get",
+          url: "/userLevel",
+          params: {
+            userId: this.$route.query,
+            userRiskLevel: this.userRiskLevel,
+          },
+        }).then((res) => {
+          const { message } = res;
+          this.$hMessage.success(message);
+          this.$router.push("/openAccount");
+        });
       }
     },
   },

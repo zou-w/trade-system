@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 import { PRODUCT_LISTS_TITLE } from "../../../constant/orm";
 import { fuzzySearch } from "../../../utils/search-utils";
 export default {
@@ -53,20 +53,18 @@ export default {
   },
   methods: {
     searchUserProduct() {
-      core
-        .fetch({
-          method: "get",
-          url: "/api/showProduct",
-          data: {
-            allProduct: 1,
-          },
-        })
-        .then((res) => {
-          const { message } = res;
-          console.log(res.data);
-          this.productLists = res.data;
-          this.$hMessage.info(message);
-        });
+      request({
+        method: "get",
+        url: "/showProduct",
+        data: {
+          allProduct: 1,
+        },
+      }).then((res) => {
+        const { message } = res;
+        console.log(res.data);
+        this.productLists = res.data;
+        this.$hMessage.info(message);
+      });
     },
     searchProduct() {
       if (this.formItem.productName === "") {

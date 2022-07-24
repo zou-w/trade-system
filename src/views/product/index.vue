@@ -51,7 +51,7 @@
   </div>
 </template>
 <script>
-import request from "../../service/request";
+import request from "@/service/request.js";
 import { fuzzySearch } from "../../utils/search-utils";
 import addProductVue from "../../components/AddProduct.vue";
 import editProductVue from "../../components/editProduct.vue";

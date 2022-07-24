@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 import TradeInfo from "../../../components/TradingInfo.vue";
 export default {
   components: {
@@ -126,19 +126,17 @@ export default {
   },
   methods: {
     searchSell() {
-      core
-        .fetch({
-          method: "get",
-          url: "/api/searchSell",
-          params: {
-            cardName: this.cardName,
-            cardNum: this.cardNum,
-          },
-        })
-        .then((res) => {
-          this.sellPerson = res.data;
-          console.log("@", this.sellPerson);
-        });
+      request({
+        method: "post",
+        url: "/sell",
+        params: {
+          cardName: this.cardName,
+          cardNum: this.cardNum,
+        },
+      }).then((res) => {
+        this.sellPerson = res.data;
+        console.log("@", this.sellPerson);
+      });
     },
     //分页
     changePage() {

@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 import { PRODUCT_INFO } from "../constant/orm";
 export default {
   name: "addProduct",
@@ -88,19 +88,17 @@ export default {
       return true;
     },
     ok() {
-      core
-        .fetch({
-          method: "post",
-          url: "/api/addProduct",
-          data: {
-            ...this.productInfo,
-          },
-        })
-        .then((res) => {
-          const { message } = res;
-          this.$hMessage.success(message);
-          location.reload();
-        });
+      request({
+        method: "post",
+        url: "/addProduct",
+        data: {
+          ...this.productInfo,
+        },
+      }).then((res) => {
+        const { message } = res;
+        this.$hMessage.success(message);
+        location.reload();
+      });
     },
     cancel() {
       this.$hMessage.info("取消添加");

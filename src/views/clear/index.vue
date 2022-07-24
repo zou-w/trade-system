@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 import { format } from "../../utils/format-utils";
 import { CLEAR_INFO } from "../../constant/orm";
 export default {
@@ -50,69 +50,61 @@ export default {
   },
   methods: {
     showClear() {
-      core
-        .fetch({
-          method: "get",
-          url: "/api/showClear",
-          params: {
-            showClear: "",
-          },
-        })
-        .then((res) => {
-          const { isClear } = res.data;
-          if (isClear === true) {
-            this.current = 4;
-          } else {
-            this.current = 0;
-          }
-        });
+      request({
+        method: "get",
+        url: "/showClear",
+        params: {
+          showClear: "",
+        },
+      }).then((res) => {
+        const { isClear } = res.data;
+        if (isClear === true) {
+          this.current = 4;
+        } else {
+          this.current = 0;
+        }
+      });
     },
     getClearLog() {
-      core
-        .fetch({
-          method: "get",
-          url: "/api/clearLog",
-          params: {
-            showClearLog: "",
-          },
-        })
-        .then((res) => {
-          this.clearLog = res.data;
-        });
+      request({
+        method: "get",
+        url: "/clearLog",
+        params: {
+          showClearLog: "",
+        },
+      }).then((res) => {
+        this.clearLog = res.data;
+      });
     },
     clear() {
       let Time1 = Date.now();
       let Time = format(Time1);
-      core
-        .fetch({
-          method: "post",
-          url: "/api/clear",
-          data: {
-            figure: 1,
-            clearData: Time,
-          },
-        })
-        .then((res) => {
-          this.$hMessage.info(res.message);
-          location.reload();
-        });
+      request({
+        method: "post",
+        url: "/clear",
+        data: {
+          figure: 1,
+          clearData: Time,
+        },
+      }).then((res) => {
+        this.$hMessage.info(res.message);
+        location.reload();
+      });
     },
     reclear() {
       let Time1 = Date.now();
       let Time = format(Time1);
-      core
-        .fetch({
-          method: "post",
-          url: "/api/reclear",
-          data: {
-            figure: 0,
-            clearData: Time,
-          },
-        })
-        .then((res) => {
-          this.$hMessage.info(res.message);
-          location.reload();
-        });
+      request({
+        method: "post",
+        url: "/reclear",
+        data: {
+          figure: 0,
+          clearData: Time,
+        },
+      }).then((res) => {
+        this.$hMessage.info(res.message);
+        location.reload();
+      });
     },
   },
   created() {

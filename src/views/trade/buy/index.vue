@@ -92,7 +92,7 @@
   </div>
 </template>
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 import { format } from "../../../utils/format-utils";
 import MsgBox from "../../../components/MsgBox.vue";
 
@@ -143,34 +143,30 @@ export default {
     },
     //查询产品风险等级
     searchProductLevel() {
-      core
-        .fetch({
-          method: "get",
-          url: "/api/searchProduct",
-          params: {
-            productName: this.buyInfo.productName,
-          },
-        })
-        .then((res) => {
-          const { productLevel } = res.data;
-          this.productLevel = productLevel;
-        });
+      request({
+        method: "get",
+        url: "/searchProduct",
+        params: {
+          productName: this.buyInfo.productName,
+        },
+      }).then((res) => {
+        const { productLevel } = res.data;
+        this.productLevel = productLevel;
+      });
     },
     //查询用户风险等级
     searchUserLevel() {
-      core
-        .fetch({
-          method: "post",
-          url: "/api/searchUser",
-          params: {
-            cardName: this.buyInfo.cardName,
-            cardNum: this.buyInfo.cardNum,
-          },
-        })
-        .then((res) => {
-          const { userRiskLevel } = res.data;
-          this.userRiskLevel = userRiskLevel;
-        });
+      request({
+        method: "post",
+        url: "/searchUser",
+        params: {
+          cardName: this.buyInfo.cardName,
+          cardNum: this.buyInfo.cardNum,
+        },
+      }).then((res) => {
+        const { userRiskLevel } = res.data;
+        this.userRiskLevel = userRiskLevel;
+      });
     },
     beforetest() {
       return true;
@@ -178,20 +174,18 @@ export default {
     ok() {
       let buyTime1 = Date.now();
       let buyTime = format(buyTime1);
-      core
-        .fetch({
-          method: "post",
-          url: "/api/buy",
-          data: {
-            ...this.buyInfo,
-            buyTime: buyTime,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          // 购买成功展示购买单信息
-          this.$refs.tradeInfo.changeBuyModal(this.modal, res.data);
-        });
+      request({
+        method: "post",
+        url: "/buy",
+        data: {
+          ...this.buyInfo,
+          buyTime: buyTime,
+        },
+      }).then((res) => {
+        console.log(res);
+        // 购买成功展示购买单信息
+        this.$refs.tradeInfo.changeBuyModal(this.modal, res.data);
+      });
     },
     cancel() {
       this.$hMessage.info("取消购买");

@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 import { format } from "../utils/format-utils";
 import MsgBox from "./MsgBox.vue";
 export default {
@@ -97,24 +97,22 @@ export default {
     ok() {
       let sellTime1 = Date.now();
       let sellTime = format(sellTime1);
-      core
-        .fetch({
-          method: "post",
-          url: "http://127.0.0.1:4523/m1/1300795-0-default/sell",
-          data: {
-            ...this.sellInfo,
-            sellTime: sellTime,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          // 购买成功展示购买单信息
-          this.$refs.tradeInfo.changeSellModal(this.modal, res.data);
-          // this.$router.push("/openAccount/test");
-          //   if (res.data.state === "登录成功") {
-          //   this.$router.push("/test");
-          // }
-        });
+      request({
+        method: "post",
+        url: "/sell",
+        data: {
+          ...this.sellInfo,
+          sellTime: sellTime,
+        },
+      }).then((res) => {
+        console.log(res);
+        // 购买成功展示购买单信息
+        this.$refs.tradeInfo.changeSellModal(this.modal, res.data);
+        // this.$router.push("/openAccount/test");
+        //   if (res.data.state === "登录成功") {
+        //   this.$router.push("/test");
+        // }
+      });
     },
     cancel() {
       this.$hMessage.info("取消赎回");

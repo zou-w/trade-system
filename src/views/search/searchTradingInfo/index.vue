@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 import { USER_TRADE_INFO } from "../../../constant/orm";
 export default {
   data() {
@@ -62,19 +62,17 @@ export default {
     },
     //搜索订单信息
     searchUserTrade() {
-      core
-        .fetch({
-          method: "get",
-          url: "/api/searchTrade",
-          params: {
-            ...this.formItem,
-          },
-        })
-        .then((res) => {
-          const { message } = res.data;
-          this.tradeLists = res.data;
-          this.$hMessage.info(message);
-        });
+      request({
+        method: "get",
+        url: "/searchTrade",
+        params: {
+          ...this.formItem,
+        },
+      }).then((res) => {
+        const { message } = res;
+        this.tradeLists = res.data;
+        this.$hMessage.info(message);
+      });
     },
     changePage() {
       // 这里直接更改了模拟的数据，真实使用场景应该从服务端获取数据

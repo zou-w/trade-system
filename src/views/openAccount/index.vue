@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import core from "@hsui/core";
+import request from "@/service/request.js";
 
 export default {
   data() {
@@ -124,26 +124,24 @@ export default {
       let _this = this;
       this.$refs[name].validate((valid) => {
         if (valid) {
-          core
-            .fetch({
-              method: "post",
-              url: "/api/createUserInfo",
-              data: {
-                ...this.formItem,
-              },
-            })
-            .then((res) => {
-              console.log(res);
-              // this.$router.push({
-              //   path: "/openAccount/test",
-              //   query: {
-              //     userId: res.data.userId,
-              //   },
-              // });
-              //   if (res.data.state === "登录成功") {
-              //   this.$router.push("/test");
-              // }
-            });
+          request({
+            method: "post",
+            url: "/createUserInfo",
+            data: {
+              ...this.formItem,
+            },
+          }).then((res) => {
+            console.log(res);
+            // this.$router.push({
+            //   path: "/openAccount/test",
+            //   query: {
+            //     userId: res.data.userId,
+            //   },
+            // });
+            //   if (res.data.state === "登录成功") {
+            //   this.$router.push("/test");
+            // }
+          });
         } else {
           _this.$hMessage.error("表单验证失败!");
         }
