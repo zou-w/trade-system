@@ -153,7 +153,6 @@ export default {
       /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/; /**  身份证号格式 */
     const nameRule =
       /^[\u4E00-\u9FA5A-Za-z\s]+(·[\u4E00-\u9FA5A-Za-z]+)*$/; /** 姓名规范 */
-    const moneyRule = /^[0-9]*[1-9][0-9]*$/; /** 金额规范 */
     return {
       userInfo1: {
         cardName: "",
@@ -180,7 +179,6 @@ export default {
       ],
       moneyRule: [
         {
-          test: moneyRule,
           message: "金额只能为整数",
           trigger: "blur",
         },
@@ -198,13 +196,9 @@ export default {
           cardNum: this.userInfo1.cardNum,
         },
       }).then((res) => {
+        console.log(res);
         this.cardInfos = [];
-        res.data.map((item) => {
-          this.cardInfos.push(item.cardInfo);
-        });
-        //   if (res.data.state === "登录成功") {
-        //   this.$router.push("/test");
-        // }
+        this.cardInfos.push(res.data.cardInfo);
       });
     },
     //充值
@@ -223,9 +217,6 @@ export default {
           }).then((res) => {
             console.log("充值", res.data);
             this.$refs.tradeInfo.rechargeModal(this.modal, res.data);
-            //   if (res.data.state === "登录成功") {
-            //   this.$router.push("/test");
-            // }
           });
         } else {
           this.$hMessage.error("表单验证失败!");

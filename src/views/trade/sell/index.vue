@@ -127,14 +127,16 @@ export default {
   methods: {
     searchSell() {
       request({
-        method: "post",
-        url: "/sell",
-        data: {
+        method: "get",
+        url: "/searchSell",
+        params: {
           cardName: this.cardName,
           cardNum: this.cardNum,
         },
       }).then((res) => {
-        this.sellPerson = res.data;
+        const { message, data } = res.data;
+        this.sellPerson = data;
+        this.$hMessage.info(message);
         console.log("@", this.sellPerson);
       });
     },

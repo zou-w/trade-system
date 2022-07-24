@@ -108,10 +108,6 @@ export default {
         console.log(res);
         // 购买成功展示购买单信息
         this.$refs.tradeInfo.changeSellModal(this.modal, res.data);
-        // this.$router.push("/openAccount/test");
-        //   if (res.data.state === "登录成功") {
-        //   this.$router.push("/test");
-        // }
       });
     },
     cancel() {
