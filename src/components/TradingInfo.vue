@@ -18,10 +18,10 @@
               style="width: 300px"
             ></h-input>
           </h-form-item>
-          <h-form-item label="用户银行卡号">
+          <h-form-item label="用户身份证信息">
             <h-input
-              v-model="sellInfo.cardInfo"
-              placeholder="请输入银行卡号码"
+              v-model="sellInfo.cardNum"
+              placeholder="请输入用户身份证信息"
               style="width: 300px"
             ></h-input>
           </h-form-item>
@@ -85,7 +85,7 @@ export default {
   methods: {
     changeSellModal(params, data) {
       this.modal1 = params;
-      this.sellInfo.productId = data;
+      this.sellInfo = data;
     },
     submitSell() {
       this.modal1 = true;

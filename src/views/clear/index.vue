@@ -83,7 +83,7 @@ export default {
         method: "post",
         url: "/clear",
         data: {
-          figure: 1,
+          figure: "",
           clearData: Time,
         },
       }).then((res) => {
@@ -98,7 +98,7 @@ export default {
         method: "post",
         url: "/reclear",
         data: {
-          figure: 0,
+          refigure: "",
           clearData: Time,
         },
       }).then((res) => {

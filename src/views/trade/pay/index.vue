@@ -158,13 +158,11 @@ export default {
         cardName: "",
         cardNum: "",
         cardInfo: "",
-        rechargeValue: "",
       },
       userInfo2: {
         cardName: "",
         cardNum: "",
         cardInfo: "",
-        withdrawalValue: "",
       },
       rechargeValue: "",
       withdrawalValue: "",

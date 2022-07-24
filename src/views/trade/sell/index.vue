@@ -111,7 +111,7 @@ export default {
                       that.modal = true;
                       that.$refs.sellMsgBox.changeSellModal(
                         that.modal,
-                        params.row.productId
+                        params.row
                       );
                     },
                   },
@@ -127,14 +127,14 @@ export default {
   methods: {
     searchSell() {
       request({
-        method: "get",
+        method: "post",
         url: "/searchSell",
         params: {
           cardName: this.cardName,
           cardNum: this.cardNum,
         },
       }).then((res) => {
-        const { message, data } = res.data;
+        const { message, data } = res;
         this.sellPerson = data;
         this.$hMessage.info(message);
         console.log("@", this.sellPerson);
