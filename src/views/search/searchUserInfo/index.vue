@@ -128,7 +128,7 @@ export default {
         method: "post",
         url: "/searchUser",
         params: {
-          cardName: this.ardName,
+          cardName: this.cardName,
           cardNum: this.cardNum,
         },
       }).then((res) => {

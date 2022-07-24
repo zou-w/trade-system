@@ -129,7 +129,7 @@ export default {
       request({
         method: "post",
         url: "/sell",
-        params: {
+        data: {
           cardName: this.cardName,
           cardNum: this.cardNum,
         },

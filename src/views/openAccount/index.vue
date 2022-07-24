@@ -126,7 +126,7 @@ export default {
         if (valid) {
           request({
             method: "post",
-            url: "/createUserInfo",
+            url: "/addUser",
             data: {
               ...this.formItem,
             },
