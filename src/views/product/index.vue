@@ -51,9 +51,8 @@
   </div>
 </template>
 <script>
-import core from "@hsui/core";
+import request from "../../service/request";
 import { fuzzySearch } from "../../utils/search-utils";
-import { SHOW_PRODUCT_LISTS } from "../../constant/orm";
 import addProductVue from "../../components/AddProduct.vue";
 import editProductVue from "../../components/editProduct.vue";
 export default {
@@ -166,17 +165,15 @@ export default {
   },
   methods: {
     getProductLists() {
-      core
-        .fetch({
-          method: "get",
-          url: "/api/showProduct",
-          data: {
-            allProduct: 1,
-          },
-        })
-        .then((res) => {
-          this.productList = res.data;
-        });
+      request({
+        method: "get",
+        url: "/showProduct",
+        data: {
+          allProduct: 1,
+        },
+      }).then((res) => {
+        this.productList = res.data;
+      });
     },
     //搜索产品
     searchProduct() {
@@ -206,19 +203,17 @@ export default {
     deleteProduct() {
       console.log(this.productIds1);
       if (this.productIds1 !== undefined) {
-        core
-          .fetch({
-            method: "post",
-            url: "/api/deleteProduct",
-            data: {
-              productId: this.productIds1,
-            },
-          })
-          .then((res) => {
-            const { message } = res;
-            this.$hMessage.success(message);
-            this.getProductLists();
-          });
+        request({
+          method: "post",
+          url: "/deleteProduct",
+          data: {
+            productId: this.productIds1,
+          },
+        }).then((res) => {
+          const { message } = res;
+          this.$hMessage.success(message);
+          this.getProductLists();
+        });
       } else {
         this.$hMessage.info("请选择删除的产品");
       }

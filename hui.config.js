@@ -12,18 +12,19 @@ module.exports = {
   // 插件
   plugins: ["@hsui/plugin-lint"],
   // 代理
-  proxy: {
-    "/api": {
-      target: "https://mock.apifox.cn/m1/1300795-0-default", // 需要代理的域名
-      changeOrigin: true, //开启代理：在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
-      pathRewrite: {
-        //重写匹配的字段，如果不需要在请求路径上，重写为""
-        "^/api": "",
-      },
-    },
-  },
+  // proxy: {
+  //   "/api": {
+  //     target: "https://mock.apifox.cn/m1/1300795-0-default", // 需要代理的域名
+  //     changeOrigin: true, //开启代理：在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
+  //     secure: true, // 如果是https接口，需要配置这个参数
+  //     pathRewrite: {
+  //       //重写匹配的字段，如果不需要在请求路径上，重写为""
+  //       "^/api": "",
+  //     },
+  //   },
+  // },
   // 设置静态资源文件打包时的相对路径
-  publicPath: "/",
+  publicPath: "./",
   // 部署配置
   see: {
     // 系统类型
