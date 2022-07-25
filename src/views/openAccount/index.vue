@@ -21,7 +21,7 @@
           required
         >
           <h-input
-            v-model="formItem.cardName"
+            v-model="formItem.userName"
             placeholder="请输入姓名"
             style="width: 300px"
           ></h-input>
@@ -59,7 +59,7 @@
           required
         >
           <h-input
-            v-model="formItem.cardNum"
+            v-model="formItem.userIdCard"
             placeholder="请输入证件号码"
             style="width: 300px"
             :maxlength="18"
@@ -102,11 +102,11 @@ export default {
     return {
       formItem: {
         userType: "" /*客户类型 */,
-        cardName: "" /*客户姓名 */,
+        userName: "" /*客户姓名 */,
         phoneNum: "" /*电话号码 */,
         cardInfo: "" /*银行卡号 */,
         cardType: "" /*证件类型 */,
-        cardNum: "" /*身份证号 */,
+        userIdCard: "" /*身份证号 */,
       },
       phoneNumRule: [
         { test: phoneNumRule, message: "请输入正确电话号码", trigger: "blur" },

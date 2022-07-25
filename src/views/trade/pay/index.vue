@@ -211,6 +211,7 @@ export default {
               ...this.userInfo1,
               rechargeValue: this.rechargeValue,
               rechargeTime: rechargeTime,
+              dealType: "充值",
             },
           }).then((res) => {
             console.log("充值", res.data);
@@ -233,6 +234,7 @@ export default {
               ...this.userInfo2,
               withdrawalValue: this.withdrawalValue,
               withdrawalTime: withdrawalTime,
+              dealType: "提现",
             },
           }).then((res) => {
             console.log("充值", res.data);

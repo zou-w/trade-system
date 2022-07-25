@@ -180,6 +180,7 @@ export default {
         data: {
           ...this.buyInfo,
           buyTime: buyTime,
+          dealType: "申购",
         },
       }).then((res) => {
         console.log(res);

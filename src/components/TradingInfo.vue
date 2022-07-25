@@ -103,6 +103,7 @@ export default {
         data: {
           ...this.sellInfo,
           sellTime: sellTime,
+          dealType: "赎回",
         },
       }).then((res) => {
         console.log(res);
