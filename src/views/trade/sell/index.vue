@@ -59,38 +59,30 @@ export default {
         {
           title: "姓名",
           key: "cardName",
-          width: 100,
+          width: 150,
         },
         {
           title: "身份证信息",
           key: "cardNum",
-          width: 300,
+          width: 350,
         },
         {
           title: "产品名字",
           key: "productName",
-          width: 100,
+          width: 200,
         },
         {
           title: "产品id",
           key: "productId",
-          width: 100,
-        },
-        {
-          title: "订单编号",
-          key: "buyId",
           width: 200,
         },
+       
         {
           title: "当前产品份额",
           key: "personNum",
-          width: 100,
+          width: 190,
         },
-        {
-          title: "购买时间",
-          key: "buyTime",
-          width: 200,
-        },
+       
         {
           title: "操作",
           key: "action",

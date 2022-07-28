@@ -16,7 +16,7 @@
 
         <h-form-item
           label="用户姓名"
-          prop="cardName"
+          prop="userName"
           :validRules="nameRule"
           required
         >
@@ -54,7 +54,7 @@
 
         <h-form-item
           label="用户证件号码"
-          prop="cardNum"
+          prop="userIdCard"
           :validRules="cardNumRule"
           required
         >

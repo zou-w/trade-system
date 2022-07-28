@@ -5,7 +5,8 @@
   "dependencies": {
     "@hsui/core": "^1.6.1",
     "axios": "^0.27.2",
-    "h_ui": "^1.45.1"
+    "h_ui": "^1.45.1",
+    "vue-router": "^3.5.4"
   },
   "devDependencies": {
     "@hsui/plugin-lint": "^1.0.0",
