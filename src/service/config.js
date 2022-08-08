@@ -1,5 +1,5 @@
-const devBaseURL = "https://mock.apifox.cn/m1/1300795-0-default";
-const proBaseURL = "https://mock.apifox.cn/m1/1300795-0-default";
+const devBaseURL = "http://zouwen.top:8088/";
+const proBaseURL = "http://zouwen.top:8088/";
 export const BASE_URL =
   process.env.NODE_ENV === "development" ? devBaseURL : proBaseURL;
 
